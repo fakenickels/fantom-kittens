@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eth:node": "hardhat node",
+    "eth:compile": "hardhat compile",
+    "eth:deploy-local": "hardhat run scripts/deploy.js --network localhost",
+    "eth:deploy-testnet": "hardhat run scripts/deploy.js --network testnet",
+    "eth:deploy-mainnet": "hardhat run scripts/deploy.js --network mainnet"
   },
   "dependencies": {
     "next": "11.1.2",
@@ -18,6 +23,7 @@
     "@nomiclabs/hardhat-etherscan": "^2.1.6",
     "@openzeppelin/contracts": "^4.3.1",
     "@types/react": "17.0.20",
+    "dotenv": "^10.0.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "hardhat": "^2.6.3",

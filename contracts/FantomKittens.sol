@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract Munks is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract FantomKittens is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -18,10 +18,10 @@ contract Munks is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         return "https://kittens.fakeworms.studio/api/kitten/";
     }
 
-    function safeMint(address to) public onlyOwner {
-        uint256 id =_tokenIdCounter.current();
+    function claim() public {
+        uint256 id = _tokenIdCounter.current();
         require(id < 419, "No more available");
-        _safeMint(to, _tokenIdCounter.current());
+        _safeMint(msg.sender, _tokenIdCounter.current());
         _tokenIdCounter.increment();
     }
 

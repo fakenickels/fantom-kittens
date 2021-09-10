@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import abi from "../artifacts/contracts/FantomKittens.sol/FantomKittens.json"
 
 const Home: NextPage = () => {
   return (

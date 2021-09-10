@@ -9,7 +9,7 @@ async function main() {
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
   const NFTMinter = await hre.ethers.getContractFactory("FantomKittens");
-  const nftMinter = await NFTMinter.deploy("FantomKittens", "KITTEN");
+  const nftMinter = await NFTMinter.deploy();
   await nftMinter.deployed();
 
   console.log("Deployed to:", nftMinter.address);
@@ -18,10 +18,6 @@ async function main() {
     console.log("Verifying ze contract")
     await hre.run("verify:verify", {
       address: nftMinter.address,
-      constructorArguments: [
-        "FantoKittens",
-        "KITTEN"
-      ],
     });
   }
 }
