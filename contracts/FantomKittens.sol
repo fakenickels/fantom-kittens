@@ -15,11 +15,10 @@ contract Munks is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     constructor() ERC721("FantomKittens", "KITTEN") {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://fantom-kittens.vercel.app/api/kitten/";
+        return "https://kittens.fakeworms.studio/api/kitten/";
     }
 
-
-    function safeMint(address to) public {
+    function safeMint(address to) public onlyOwner {
         uint256 id =_tokenIdCounter.current();
         require(id < 419, "No more available");
         _safeMint(to, _tokenIdCounter.current());
