@@ -17,7 +17,7 @@ export default function handler(
   res.status(200).json({
     id: id,
     name: `Fantom Kitten #${id}`,
-    image: `https://fantom-kittens.vercel.app/assets/${id}.png`,
+    image: `https://kittens.fakeworms.studio/assets/${id}.png`,
     description: "A sweet kitten",
   })
 }
