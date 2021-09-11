@@ -10,7 +10,7 @@ describe("FantomKittens contract", function () {
   let depositAddress;
 
   this.beforeAll(async () => {
-    [owner, depositAddress] = await ethers.getSigners();
+    [owner, depositAddress, someFucker] = await ethers.getSigners();
 
   })
 
@@ -44,5 +44,17 @@ describe("FantomKittens contract", function () {
     }).catch(e => e.message)
 
     expect(receipt).to.equal(`VM Exception while processing transaction: reverted with reason string 'Invalid amount'`)
+  });
+
+  it("only contract owner should change the deposit address", async function () {
+    const Contract = await ethers.getContractFactory("FantomKittens");
+
+    const contract = await Contract.deploy();
+
+    const contractFuckerSigner = contract.connect(someFucker)
+
+    const receipt = await contractFuckerSigner.setDepositAddress(await someFucker.getAddress()).catch(e => e.message)
+
+    expect(receipt).to.equal(`VM Exception while processing transaction: reverted with reason string 'Ownable: caller is not the owner'`)
   });
 });
