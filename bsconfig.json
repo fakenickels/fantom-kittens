@@ -1,0 +1,24 @@
+{
+  "name": "fantom-kittens",
+  "namespace": false,
+  "reason": { "react-jsx": 3 },
+  "refmt": 3,
+  "bs-dependencies": ["@rescript/react"],
+  "ppx-flags": [],
+  "sources": [
+    { "dir": "src", "subdirs": true }
+  ],
+  "package-specs": {
+    "module": "es6",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
+  "warnings": {
+    "number": "-3",
+    "error": "+101+8"
+  },
+  "gentypeconfig": {
+    "language": "typescript",
+    "shims": []
+  }
+}

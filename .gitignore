@@ -36,3 +36,10 @@ yarn-error.log*
 # et hirium
 artifacts
 cache
+
+# rescript
+
+*.bs.js
+.bsb.lock
+lib/
+.merlin

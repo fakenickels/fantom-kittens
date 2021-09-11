@@ -12,15 +12,30 @@ contract FantomKittens is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
+    address payable public depositAddress = payable(0xC748E6dE30222F4e9bC01812860FF005A82543E6);
+    uint256 public maxMintable = 420;
+
     constructor() ERC721("FantomKittens", "KITTEN") {}
 
     function _baseURI() internal pure override returns (string memory) {
         return "https://kittens.fakeworms.studio/api/kitten/";
     }
 
-    function claim() public {
+    function setDepositAddress(address payable to) public onlyOwner {
+        depositAddress = to;
+    }
+
+    function claim() public payable {
         uint256 id = _tokenIdCounter.current();
-        require(id < 419, "No more available");
+        // 4.2 
+        uint256 price = 4.2 ether;
+
+        require(msg.value == price, "Invalid amount");
+        require(id < (maxMintable - 1), "No more kittens are available");
+
+        // transfer amount to owner
+        depositAddress.transfer(price);
+
         _safeMint(msg.sender, _tokenIdCounter.current());
         _tokenIdCounter.increment();
     }
