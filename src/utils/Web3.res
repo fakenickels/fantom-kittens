@@ -17,7 +17,7 @@ external useContractMethods: unit => contractMethods = "useContractMethods"
 type useWalletApi = {
   connect: (. [#injected]) => Js.Promise.t<unit>,
   status: [#connected | #connecting | #disconnected | #error],
-  account: option<string>,
+  account: Js.Nullable.t<string>,
 }
 
 @genType.import("use-wallet")

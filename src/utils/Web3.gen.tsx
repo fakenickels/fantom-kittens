@@ -19,5 +19,5 @@ export type useWalletApi = {
   | "connected"
   | "disconnected"
   | "connecting"; 
-  readonly account?: string
+  readonly account: (null | undefined | string)
 };

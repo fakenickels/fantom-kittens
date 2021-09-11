@@ -56,7 +56,7 @@ let make = () => {
       | #error => `Something went wrong. Try reloading your page.`->React.string
       | #connected => <>
           <h1 className="text-xl">
-            {`Welcome, ${wallet.account->Belt.Option.getWithDefault("")}`->React.string}
+            {`Welcome, ${wallet.account->Js.Nullable.toOption->Belt.Option.getWithDefault("")}`->React.string}
           </h1>
           <p>
             {switch contract.totalSupply {
