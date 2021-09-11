@@ -34,7 +34,6 @@ yarn-error.log*
 .vercel
 
 # et hirium
-artifacts
 cache
 
 # rescript

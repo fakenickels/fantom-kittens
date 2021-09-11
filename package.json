@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "rescript build && npm run eth:compile && next build",
+    "build": "rescript build && next build",
     "start": "next start",
     "lint": "next lint",
     "rescript:build": "rescript build",

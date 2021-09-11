@@ -27,7 +27,12 @@ module Carousel = {
 @react.component
 let make = () => {
   let wallet = Web3.useWallet()
-  let claim = Web3.useClaim()
+  let contract = Web3.useContractMethods()
+
+  React.useEffect0(() => {
+    let _ = contract.getTotalSupply()
+    None
+  })
 
   <div className="container px-16 py-12 grid grid-cols-2">
     <div className="flex flex-col">
@@ -41,7 +46,7 @@ let make = () => {
       | #connecting =>
         <button
           type_="button"
-          className="bg-blue-200 py-5 px-5 uppercase text-white font-bold mt-auto"
+          className="bg-blue-500 py-5 px-5 uppercase text-white font-bold mt-auto"
           disabled={wallet.status == #connecting}
           onClick={_ => {
             let _ = wallet.connect(. #injected)
@@ -53,13 +58,19 @@ let make = () => {
           <h1 className="text-xl">
             {`Welcome, ${wallet.account->Belt.Option.getWithDefault("")}`->React.string}
           </h1>
+          <p>
+            {switch contract.totalSupply {
+            | None => "Remaining ..."->React.string
+            | Some(totalSupply) => `Remaining ${totalSupply->string_of_int}/420`->React.string
+            }}
+          </p>
           <button
             type_="button"
-            className="bg-blue-500 py-5 px-5 uppercase text-white font-bold mt-auto"
+            className="bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto"
             disabled={wallet.status == #connecting}
             onClick={_ => {
               let _ = wallet.connect(. #injected)
-              claim()
+              let _ = contract.claim()
             }}>
             {`Claim one kitten for 4.2 FTM`->React.string}
           </button>

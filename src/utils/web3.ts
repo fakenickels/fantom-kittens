@@ -1,5 +1,5 @@
-import React from 'react'
-import Web3 from 'web3';
+import React from "react";
+import Web3 from "web3";
 import { useWallet } from "use-wallet";
 import fantomKittens from "../../artifacts/contracts/FantomKittens.sol/FantomKittens.json";
 
@@ -18,33 +18,25 @@ export const useWeb3 = () => {
     );
     window.contract = contract.current;
     window.france = france.current;
-    // contract.current?.methods.totalSupply().call().then(setRemaining);
   });
 
-  return [france, contract]
-}
+  return [france, contract];
+};
 
-export const useClaim = () => {
-  const [_france, contract] = useWeb3()
-  const [isClaiming, setIsClaiming] = React.useState(false);
-  
+export const useContractMethods = () => {
+  const [_france, contract] = useWeb3();
+  const [totalSupply, setTotalSupply] = React.useState()
+
   const wallet = useWallet();
 
   const claim = async () => {
-    setIsClaiming(true);
-    try {
-      const claimTxn = await contract.current.methods
-        .claim()
-        .send({
-          from: wallet?.account as string,
-          value: price,
-        })
-        .then();
-      console.log(claimTxn)
-    } finally {
-      setIsClaiming(false);
-    }
+    return contract.current.methods.claim().send({
+      from: wallet?.account as string,
+      value: price,
+    });
   };
 
-  return claim
-}
+  const getTotalSupply = () => contract.current?.methods.totalSupply().call().then(setTotalSupply);
+
+  return {claim, getTotalSupply, totalSupply};
+};
