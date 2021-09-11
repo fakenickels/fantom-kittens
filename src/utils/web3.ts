@@ -7,17 +7,15 @@ export const price = 4.2e18;
 export const maxSupply = 420;
 
 export const useWeb3 = () => {
-  const france: React.Ref<Web3 | null> = React.useRef(null);
-  const contract: React.Ref<any> = React.useRef(null);
+  const france: React.MutableRefObject<Web3 | undefined> = React.useRef();
+  const contract: React.MutableRefObject<any | undefined> = React.useRef();
 
   React.useEffect(() => {
     france.current = new Web3(window.ethereum);
     contract.current = new france.current.eth.Contract(
-      fantomKittens.abi,
+      fantomKittens.abi as any,
       process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
     );
-    window.contract = contract.current;
-    window.france = france.current;
   });
 
   return [france, contract];
