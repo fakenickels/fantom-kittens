@@ -2,16 +2,17 @@ type txn = {
   transactionHash: string
 }
 
-type claim = unit => Js.Promise.t<txn>
+type claim = int => Js.Promise.t<txn>
+type ownerOf = (.int) => Js.Promise.t<string>
 
 type contractMethods = {
   claim,
-  getTotalSupply: unit => Js.Promise.t<unit>,
+  ownerOf,
   totalSupply: option<int>
 }
 
-@module("./web3.ts")
-external useContractMethods: unit => contractMethods = "useContractMethods"
+@module("./web3.tsx")
+external useContractMethods: unit => option<contractMethods> = "useContractMethods"
 
 @genType
 type useWalletApi = {
