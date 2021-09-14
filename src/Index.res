@@ -34,49 +34,57 @@ let make = () => {
     None
   })
 
-  <div className="container px-16 py-12 grid grid-cols-2">
-    <div className="flex flex-col">
-      <Next.Head> <title> {"Fantom Kittens"->React.string} </title> </Next.Head>
-      <h1 className="text-4xl font-semibold">
-        {"Welcome to "->React.string}
-        {<span className="text-blue-500"> {"Fantom Kittens"->React.string} </span>}
-      </h1>
-      {switch wallet.status {
-      | #disconnected
-      | #connecting =>
-        <button
-          type_="button"
-          className="bg-blue-500 py-5 px-5 uppercase text-white font-bold mt-auto"
-          disabled={wallet.status == #connecting}
-          onClick={_ => {
-            let _ = wallet.connect(. #injected)
-          }}>
-          {"Connect wallet"->React.string}
-        </button>
-      | #error => `Something went wrong. Try reloading your page.`->React.string
-      | #connected => <>
-          <h1 className="text-xl">
-            {`Welcome, ${wallet.account->Js.Nullable.toOption->Belt.Option.getWithDefault("")}`->React.string}
-          </h1>
-          <p>
-            {switch contract.totalSupply {
-            | None => "Remaining ..."->React.string
-            | Some(totalSupply) => `Remaining ${totalSupply->string_of_int}/420`->React.string
-            }}
-          </p>
+  <div className="h-screen flex md:tems-center md:justify-center">
+    <div className="container p-5 md:px-16 md:py-12 flex flex-col flex-col-reverse md:flex-row justify-between">
+      <div className="flex flex-col flex-grow p-0 md:px-4">
+        <Next.Head> <title> {"Fantom Kittens"->React.string} </title> </Next.Head>
+        <h1 className="text-4xl font-semibold">
+          {"Welcome to "->React.string}
+          {<span className="text-blue-500"> {"Fantom Kittens"->React.string} </span>}
+        </h1>
+        {switch wallet.status {
+        | #disconnected
+        | #connecting =>
           <button
             type_="button"
-            className="bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto"
+            className="bg-blue-500 py-5 px-5 uppercase text-white font-bold mt-auto"
             disabled={wallet.status == #connecting}
             onClick={_ => {
               let _ = wallet.connect(. #injected)
-              let _ = contract.claim()
             }}>
-            {`Claim one kitten for 4.2 FTM`->React.string}
+            {"Connect wallet"->React.string}
           </button>
-        </>
-      }}
+        | #error => `Something went wrong. Try reloading your page.`->React.string
+        | #connected => <>
+            <div className="max-w-3xl">
+            <h1 className="text-xl">
+            <span className="overflow-ellipsis">
+              {`Welcome, ${wallet.account
+                ->Js.Nullable.toOption
+                ->Belt.Option.getWithDefault("")}`->React.string}
+                </span>
+            </h1>
+            </div>
+            <p>
+              {switch contract.totalSupply {
+              | None => "Remaining ..."->React.string
+              | Some(totalSupply) => `Remaining ${totalSupply->string_of_int}/420`->React.string
+              }}
+            </p>
+            <button
+              type_="button"
+              className="bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto"
+              disabled={wallet.status == #connecting}
+              onClick={_ => {
+                let _ = wallet.connect(. #injected)
+                let _ = contract.claim()
+              }}>
+              {`Claim one kitten for 4.2 FTM`->React.string}
+            </button>
+          </>
+        }}
+      </div>
+      <div className="flex items-center justify-center"> <Carousel /> </div>
     </div>
-    <div className="flex items-center justify-center"> <Carousel /> </div>
   </div>
 }
