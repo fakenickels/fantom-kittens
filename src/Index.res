@@ -13,11 +13,11 @@ module Carousel = {
 
     {
       switch currentIndex {
-      | 0 => <Next.Image src={Next.require("../public/assets/0.png")} />
-      | 1 => <Next.Image src={Next.require("../public/assets/1.png")} />
-      | 2 => <Next.Image src={Next.require("../public/assets/2.png")} />
-      | 3 => <Next.Image src={Next.require("../public/assets/3.png")} />
-      | 4 => <Next.Image src={Next.require("../public/assets/4.png")} />
+      | 0 => <Next.Image src={Next.require(`../public/assets/${KittensDict.getFileNameByIndex(#0)}`)} />
+      | 1 => <Next.Image src={Next.require(`../public/assets/${KittensDict.getFileNameByIndex(#1)}`)} />
+      | 2 => <Next.Image src={Next.require(`../public/assets/${KittensDict.getFileNameByIndex(#2)}`)} />
+      | 3 => <Next.Image src={Next.require(`../public/assets/${KittensDict.getFileNameByIndex(#3)}`)} />
+      | 4 => <Next.Image src={Next.require(`../public/assets/${KittensDict.getFileNameByIndex(#4)}`)} />
       | _ => React.null
       }
     }
@@ -56,7 +56,9 @@ let make = () => {
       | #error => `Something went wrong. Try reloading your page.`->React.string
       | #connected => <>
           <h1 className="text-xl">
-            {`Welcome, ${wallet.account->Js.Nullable.toOption->Belt.Option.getWithDefault("")}`->React.string}
+            {`Welcome, ${wallet.account
+              ->Js.Nullable.toOption
+              ->Belt.Option.getWithDefault("")}`->React.string}
           </h1>
           <p>
             {switch contract.totalSupply {

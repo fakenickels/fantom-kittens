@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getFileNameByIndex, kittenIndex } from "../../../src/utils/KittensDict";
 
 interface Data {
   id: string;
@@ -11,12 +12,13 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const id = req.query.id as string;
+  const id = Number(req.query.id as string) as kittenIndex;
+  const fileName = getFileNameByIndex(id)
 
   res.status(200).json({
-    id: id,
+    id: String(id),
     name: `Fantom Kitten #${id}`,
-    image: `https://kittens.fakeworms.studio/assets/${id}.png`,
+    image: `https://kittens.fakeworms.studio/assets/${fileName}`,
     description: "A sweet kitten",
   });
 }
