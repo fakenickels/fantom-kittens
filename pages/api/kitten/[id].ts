@@ -18,7 +18,7 @@ export default function handler(
   res.status(200).json({
     id: String(id),
     name: `Fantom Kitten #${id}`,
-    image: `https://kittens.fakeworms.studio/assets/${fileName}`,
+    image: `https://kittens.fakeworms.studio/assets/${encodeURIComponent(fileName)}`,
     description: "A sweet kitten",
   });
 }
