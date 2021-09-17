@@ -3,7 +3,10 @@
   "namespace": false,
   "reason": { "react-jsx": 3 },
   "refmt": 3,
-  "bs-dependencies": ["@rescript/react"],
+  "bs-dependencies": [
+    "@rescript/react",
+    "@ryyppy/rescript-promise"
+  ],
   "ppx-flags": [],
   "sources": [
     { "dir": "src", "subdirs": true }

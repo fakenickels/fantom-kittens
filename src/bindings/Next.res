@@ -148,5 +148,5 @@ module Dynamic = {
 
 module Image = {
   @module("next/image") @react.component
-  external make: (~src: string, ~width: float=?, ~height: float=?) => React.element = "default"
+  external make: (~src: string, ~layout: [#responsive | #fixed | #intrinsic]=?, ~width: float=?, ~height: float=?) => React.element = "default"
 }
