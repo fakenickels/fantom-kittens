@@ -1,4 +1,15 @@
+type returnValues = {
+  tokenId: string,
+}
+type transfer = {
+  returnValues,
+}
+type events = {
+  @as("Transfer")
+  transfer,
+}
 type txn = {
+  events,
   transactionHash: string
 }
 

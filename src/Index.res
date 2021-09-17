@@ -1,15 +1,46 @@
 type claimingStatus = Idle | Claiming | Claimed(Web3.txn) | Error
 
+type ls
+
+@val
+external localStorage: ls = "localStorage"
+
+@send
+external setItem: (ls, ~key: string, ~value: string) => unit = "setItem"
+
+@send
+external getItem: (ls, string) => Js.Null_undefined.t<string> = "getItem"
+
 @react.component
 let make = () => {
   let wallet = Web3.useWallet()
   let contract = Web3.useContractMethods()
+  let (lastTxns: array<Web3.txn>, setLastTxns) = React.useState(() => [])
   let (claimingStatus, setClaimingStatus) = React.useState(() => Idle)
 
   React.useEffect0(() => {
     let _ = contract.getTotalSupply()
     None
   })
+
+  React.useEffect0(() => {
+    setLastTxns(_ => {
+      let data = localStorage->getItem("TXNS")
+      switch data->Js.Null_undefined.toOption {
+      | None => []
+      | Some(data) => Obj.magic(Js.Json.parseExn(data))
+      }
+    })
+    None
+  })
+
+  React.useEffect1(() => {
+    if lastTxns->Js.Array2.length > 0 {
+      localStorage->setItem(~key="TXNS", ~value=Js.Json.stringifyAny(lastTxns)->Belt.Option.getExn)
+    }
+
+    None
+  }, [lastTxns->Js.Array2.length])
 
   let claim = () => {
     setClaimingStatus(_ => Claiming)
@@ -18,6 +49,10 @@ let make = () => {
       contract.claim()
       |> Js.Promise.then_(txn => {
         Js.log(txn)
+        let _ = contract.getTotalSupply()
+        setLastTxns(lastTxns => {
+          lastTxns->Js.Array2.concat([txn])
+        })
         setClaimingStatus(_ => Claimed(txn))
         Js.Promise.resolve()
       })
@@ -98,25 +133,56 @@ let make = () => {
                 `Claimed kittens: ${totalSupply->string_of_int}/420`->React.string
               }}
             </p>
-            <h1 className="text-xl text-green-500 pb-10">
+            <p className="text-xl text-green-500 pb-10">
               {`Hello, ${wallet.account
                 ->Js.Nullable.toOption
                 ->Belt.Option.getWithDefault("")}`->React.string}
-            </h1>
-            <button
-              type_="button"
-              className={`bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto w-[400px] min-w-[400px] ${claimingStatus ==
-                  Claiming
-                  ? "pointer-events-none opacity-75"
-                  : ""}`}
-              disabled={wallet.status == #connecting}
-              onClick={_ => {
-                claim()
-              }}>
-              {{
-                claimingStatus == Claiming ? "Claiming..." : `Claim one kitten for 4.20 FTM`
-              }->React.string}
-            </button>
+            </p>
+            {switch contract.totalSupply {
+            | Some(420) => React.null
+            | _ =>
+              <button
+                type_="button"
+                className={`bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto w-[400px] min-w-[400px] ${claimingStatus ==
+                    Claiming
+                    ? "pointer-events-none opacity-75"
+                    : ""}`}
+                disabled={wallet.status == #connecting}
+                onClick={_ => {
+                  claim()
+                }}>
+                {{
+                  claimingStatus == Claiming ? "Claiming..." : `Claim one kitten for 4.20 FTM`
+                }->React.string}
+              </button>
+            }}
+            {lastTxns->Js.Array2.length == 0
+              ? React.null
+              : <h3 className="text-green-500 mt-10">
+                  {"Your last minted kittens"->React.string}
+                </h3>}
+            <ul className="text-green-500 my-5">
+              {lastTxns
+              ->Js.Array2.map(txn => {
+                <li className="flex flex-row">
+                  <Next.Image
+                    src={`/assets/${KittensDict.getFileNameByIndex(
+                        txn.events.transfer.returnValues.tokenId->int_of_string->Obj.magic,
+                      )}`}
+                    layout=#fixed
+                    width=50.
+                    height=50.
+                  />
+                  <a
+                    href={`https://ftmscan.com/tx/${txn.transactionHash}`}
+                    className="underline pl-5 text-md"
+                    target="_blank">
+                    {`You claimed Kitten #${txn.events.transfer.returnValues.tokenId}`->React.string}
+                  </a>
+                </li>
+              })
+              ->React.array}
+            </ul>
           </div>
         }}
       </div>
