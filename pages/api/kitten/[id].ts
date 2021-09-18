@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { extractAttrsFromName, getFileNameByIndex, kittenIndex } from "../../../src/utils/KittensDict";
+import Cors from 'cors'
+import initMiddleware from "../../../server/init-middleware";
 
 interface Data {
   id: string;
@@ -9,10 +11,22 @@ interface Data {
   attributes: {trait_type: string, value: string}[]
 }
 
-export default function handler(
+// Initialize the cors middleware
+const cors = initMiddleware(
+  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+  Cors({
+    // Only allow requests with GET, POST and OPTIONS
+    methods: ['GET', 'POST', 'OPTIONS'],
+  })
+)
+
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  // Run cors
+  await cors(req, res)
   const id = Number(req.query.id as string) as kittenIndex;
   const fileName = getFileNameByIndex(id)
 
