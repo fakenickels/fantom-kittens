@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getFileNameByIndex, kittenIndex } from "../../../src/utils/KittensDict";
+import { extractAttrsFromName, getFileNameByIndex, kittenIndex } from "../../../src/utils/KittensDict";
 
 interface Data {
   id: string;
   name: string;
   description: string;
   image: string;
+  attributes: {trait_type: string, value: string}[]
 }
 
 export default function handler(
@@ -20,5 +21,6 @@ export default function handler(
     name: `Fantom Kitten #${id}`,
     image: `https://kittens.fakeworms.studio/assets/${encodeURIComponent(fileName)}`,
     description: "A sweet kitten",
+    attributes: extractAttrsFromName(fileName)
   });
 }

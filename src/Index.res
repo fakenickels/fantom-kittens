@@ -165,14 +165,20 @@ let make = () => {
               {lastTxns
               ->Js.Array2.map(txn => {
                 <li className="flex flex-row">
-                  <Next.Image
-                    src={`/assets/${KittensDict.getFileNameByIndex(
+                  <a
+                    href={`/assets/${KittensDict.getFileNameByIndex(
                         txn.events.transfer.returnValues.tokenId->int_of_string->Obj.magic,
                       )}`}
-                    layout=#fixed
-                    width=50.
-                    height=50.
-                  />
+                    target="_blank">
+                    <Next.Image
+                      src={`/assets/${KittensDict.getFileNameByIndex(
+                          txn.events.transfer.returnValues.tokenId->int_of_string->Obj.magic,
+                        )}`}
+                      layout=#fixed
+                      width=50.
+                      height=50.
+                    />
+                  </a>
                   <a
                     href={`https://ftmscan.com/tx/${txn.transactionHash}`}
                     className="underline pl-5 text-md"
