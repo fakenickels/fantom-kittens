@@ -424,21 +424,21 @@ export const kittensDict = {
 type kittensDict = typeof kittensDict;
 export type kittenIndex = keyof kittensDict;
 
-export const getFileNameByIndex = (index: kittenIndex) => kittensDict[index]
-export const files = Object.values(kittensDict)
+export const getFileNameByIndex = (index: kittenIndex) => kittensDict[index];
+export const files = Object.values(kittensDict);
 
-export const extractAttrsFromName = (name) => {
+export const extractAttrsFromName = (name: string) => {
   const [_index, earFrame, eyeFrame, mouthFrame, glassFrame, r, g, b] = name
     .replace("Fantom Kitten", "")
     .replace(".png", "")
     .split("-")
-    .map((s: string) => s.trim())
+    .map((s: string) => s.trim());
 
-    return [
-      {trait_type: "Ear Frame", value: earFrame},
-      {trait_type: "Eye Frame", value: eyeFrame},
-      {trait_type: "Mouth Frame", value: mouthFrame},
-      {trait_type: "Glass Frame", value: glassFrame},
-      {trait_type: "RGB", value: `rgb(${r}, ${g}, ${b})`},
-    ]
-}
+  return [
+    { trait_type: "Ear Frame", value: earFrame },
+    { trait_type: "Eye Frame", value: eyeFrame },
+    { trait_type: "Mouth Frame", value: mouthFrame },
+    { trait_type: "Glass Frame", value: glassFrame },
+    { trait_type: "RGB", value: `rgb(${r}, ${g}, ${b})` },
+  ];
+};
