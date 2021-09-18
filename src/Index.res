@@ -107,6 +107,12 @@ let make = () => {
           <a className="text-purple-700 underline" href="https://twitter.com/MarcoWorms">
             {"@marcoworms"->React.string}
           </a>
+          <br />
+          <br />
+          <span> {"Explore, buy, and sell all claimed kittens at "->React.string}</span>
+          <a className="text-purple-700 underline" href="https://paintswap.finance/nfts/collections/0xfD211f3B016a75bC8d73550aC5AdC2f1cAE780C0">
+            {"PaintSwap NFT Market"->React.string}
+          </a>
         </div>
         {switch wallet.status {
         | #disconnected
