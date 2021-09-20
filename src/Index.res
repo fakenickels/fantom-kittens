@@ -103,7 +103,7 @@ let make = () => {
             {"Join our discord"->React.string}
           </a>
           <span>
-            {" to interact with the Fantom Kittens community and keep up-to-date future FakeWorms Studio projects!"->React.string}
+            {" to interact with the Fantom Kittens community and keep up-to-date with future FakeWorms Studio projects!"->React.string}
           </span>
           <br />
           <br />
