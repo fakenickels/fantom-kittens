@@ -2,10 +2,6 @@
 
 We are live!!! You can now claim one of the 420 available Fantom Kittens now on our claiming website! GhostSmiling cat face with open mouth
 
-Down pointing backhand indexDown pointing backhand indexDown pointing backhand index
-
-https://kittens.fakeworms.studio
-https://kittens.fakeworms.studio
 https://kittens.fakeworms.studio
 
 
