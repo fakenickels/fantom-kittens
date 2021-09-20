@@ -142,15 +142,10 @@ let make = () => {
               {"Connect wallet"->React.string}
             </button>
           </div>
-        | #error => <div className="w-full p-2 md:p-10">
-          <p>
-            {`Something went wrong. Maybe you haven't set up your web3 env.`->React.string}
-            </p>
-            <p>
-              {`Check out this `->React.string}
-            {smolGuide}
-            </p>
-            
+        | #error =>
+          <div className="w-full p-2 md:p-10">
+            <p> {`Something went wrong. Maybe you haven't set up your web3 env.`->React.string} </p>
+            <p> {`Check out this `->React.string} {smolGuide} </p>
           </div>
         | #connected =>
           <div className="p-2 w-full">
@@ -193,7 +188,7 @@ let make = () => {
             <ul className="text-green-500 my-5">
               {lastTxns
               ->Js.Array2.map(txn => {
-                <li className="flex flex-row">
+                <li className="flex flex-row items-center bg-gray-100 p-2 my-2">
                   <a
                     href={`/assets/${KittensDict.getFileNameByIndex(
                         txn.events.transfer.returnValues.tokenId->int_of_string->Obj.magic,
@@ -208,12 +203,21 @@ let make = () => {
                       height=50.
                     />
                   </a>
-                  <a
-                    href={`https://ftmscan.com/tx/${txn.transactionHash}`}
-                    className="underline pl-5 text-md"
-                    target="_blank">
+                  <div className="flex flex-col pl-5">
                     {`You claimed Kitten #${txn.events.transfer.returnValues.tokenId}`->React.string}
-                  </a>
+                    <a
+                      href={`https://ftmscan.com/tx/${txn.transactionHash}`}
+                      className="underline text-md"
+                      target="_blank">
+                      {`View on ftmscan.com`->React.string}
+                    </a>
+                    <a
+                      href={`https://paintswap.finance/nfts/assets/0xfd211f3b016a75bc8d73550ac5adc2f1cae780c0/${txn.events.transfer.returnValues.tokenId}`}
+                      className="underline text-md"
+                      target="_blank">
+                      {`View on PaintSwap`->React.string}
+                    </a>
+                  </div>
                 </li>
               })
               ->React.array}
