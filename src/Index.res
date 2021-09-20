@@ -11,6 +11,14 @@ external setItem: (ls, ~key: string, ~value: string) => unit = "setItem"
 @send
 external getItem: (ls, string) => Js.Null_undefined.t<string> = "getItem"
 
+let smolGuide = {
+  <a
+    className="text-purple-700 underline"
+    href="https://gist.github.com/MarcoWorms/78e71064e3a5c366b29b8a9ce01e1f19">
+    {"small guide on how to setup yourself to interact with Fantom services."->React.string}
+  </a>
+}
+
 @react.component
 let make = () => {
   let wallet = Web3.useWallet()
@@ -85,8 +93,8 @@ let make = () => {
           {"Fantom Kittens"->React.string}
         </span>}
       </h1>
-      <div className="container flex flex-col-reverse md:flex-row flex-wrap">
-        <div className="p-2 w-full md:p-10 md:w-6/12">
+      <div className="container flex flex-col-reverse md:grid grid-cols-2">
+        <div className="p-2 w-full md:p-10">
           <p>
             {"420 NFT kittens are now released into the Fantom Network wilderness! This is a claiming website where you can claim a proceduraly generated kitten for only 4.20 FTM each. There are over 15.000 parts combinations and millions of colors possibilities, but only 420 out of all possible combinations will exist and live in the Fantom Network!"->React.string}
           </p>
@@ -109,21 +117,21 @@ let make = () => {
           </a>
           <br />
           <br />
-          <span> {"Explore, buy, and sell all claimed kittens at "->React.string}</span>
-          <a className="text-purple-700 underline" href="https://paintswap.finance/nfts/collections/0xfD211f3B016a75bC8d73550aC5AdC2f1cAE780C0">
+          <span> {"Explore, buy, and sell all claimed kittens at "->React.string} </span>
+          <a
+            className="text-purple-700 underline"
+            href="https://paintswap.finance/nfts/collections/0xfD211f3B016a75bC8d73550aC5AdC2f1cAE780C0">
             {"PaintSwap NFT Market"->React.string}
           </a>
           <br />
           <br />
-          <span> {"If you are new to the Fantom ecossystem we've written a "->React.string}</span>
-          <a className="text-purple-700 underline" href="https://gist.github.com/MarcoWorms/78e71064e3a5c366b29b8a9ce01e1f19">
-            {"small guide on how to setup yourself to interact with Fantom services"->React.string}
-          </a>
+          <span> {"If you are new to the Fantom ecossystem we've written a "->React.string} </span>
+          {smolGuide}
         </div>
         {switch wallet.status {
         | #disconnected
         | #connecting =>
-          <div className="p-2 w-full md:w-6/12 flex items-center justify-center">
+          <div className="p-2 w-full flex items-center justify-center">
             <button
               type_="button"
               className="bg-blue-500 py-5 px-10 uppercase text-white font-bold"
@@ -134,9 +142,18 @@ let make = () => {
               {"Connect wallet"->React.string}
             </button>
           </div>
-        | #error => `Something went wrong. Try reloading your page.`->React.string
+        | #error => <div className="w-full p-2 md:p-10">
+          <p>
+            {`Something went wrong. Maybe you haven't set up your web3 env.`->React.string}
+            </p>
+            <p>
+              {`Check out this `->React.string}
+            {smolGuide}
+            </p>
+            
+          </div>
         | #connected =>
-          <div className="p-2 w-full md:w-6/12">
+          <div className="p-2 w-full">
             <p className="text-xl text-blue-500 pb-5">
               {switch contract.totalSupply {
               | None => "..."->React.string
