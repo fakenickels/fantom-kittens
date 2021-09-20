@@ -113,6 +113,12 @@ let make = () => {
           <a className="text-purple-700 underline" href="https://paintswap.finance/nfts/collections/0xfD211f3B016a75bC8d73550aC5AdC2f1cAE780C0">
             {"PaintSwap NFT Market"->React.string}
           </a>
+          <br />
+          <br />
+          <span> {"If you are new to the Fantom ecossystem we've written a "->React.string}</span>
+          <a className="text-purple-700 underline" href="https://gist.github.com/MarcoWorms/78e71064e3a5c366b29b8a9ce01e1f19">
+            {"small guide on how to setup yourself to interact with Fantom services"->React.string}
+          </a>
         </div>
         {switch wallet.status {
         | #disconnected
