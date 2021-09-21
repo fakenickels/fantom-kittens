@@ -154,7 +154,7 @@ let make = () => {
               | None => "..."->React.string
               | Some(420) => "All 420 kittens were claimed! Thanks everyone!"->React.string
               | Some(totalSupply) =>
-                `Claimed kittens: ${totalSupply->string_of_int}/420`->React.string
+                `Claimed kittens: ${totalSupply->string_of_int}/419`->React.string
               }}
             </p>
             <p className="text-xl text-green-500 pb-10">
