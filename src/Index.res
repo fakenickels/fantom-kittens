@@ -108,12 +108,8 @@ let make = () => {
           <br />
           <br />
           <span> {"Made with <3 by "->React.string} </span>
-          <a className="text-purple-700 underline" href="https://twitter.com/fakenickels">
-            {"@fakenickels"->React.string}
-          </a>
-          <span> {" and "->React.string} </span>
-          <a className="text-purple-700 underline" href="https://twitter.com/MarcoWorms">
-            {"@marcoworms"->React.string}
+          <a className="text-purple-700 underline" href="https://twitter.com/FakewormsStudio">
+            {"@FakeWormsStudio "->React.string}
           </a>
           <br />
           <br />
