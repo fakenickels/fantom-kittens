@@ -5,7 +5,12 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        mono: ['"Press Start 2P"'],
+        sans: [`"Open Sans"`, 'Helvetica', 'Arial', 'sans-serif'],
+      }
+    },
   },
   variants: {
     extend: {},

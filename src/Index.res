@@ -78,13 +78,13 @@ let make = () => {
       })
   }
 
-  <div className="px-0 md:px-16 pb-12">
+  <div className="px-0 md:px-16 pb-12 font-sans">
     <div className="flex flex-col items-center">
       <Next.Head> <title> {"Fantom Kittens"->React.string} </title> </Next.Head>
       <div className="w-full">
         <Next.Image src={Next.require(`../public/assets/bannerkittenrs.png`)} />
       </div>
-      <h1 className="text-6xl font-semibold py-10 px-2">
+      <h1 className="text-5xl font-semibold py-10 px-2 font-mono">
         {<span className="text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-red-500">
           {"Welcome to "->React.string}
         </span>}
@@ -130,7 +130,7 @@ let make = () => {
           <div className="p-2 w-full flex items-center justify-center">
             <button
               type_="button"
-              className="bg-blue-500 py-5 px-10 uppercase text-white font-bold"
+              className="bg-blue-500 py-5 px-10 uppercase text-white font-bold font-mono"
               disabled={wallet.status == #connecting}
               onClick={_ => {
                 let _ = wallet.connect(. #injected)
@@ -145,15 +145,15 @@ let make = () => {
           </div>
         | #connected =>
           <div className="p-2 w-full">
-            <p className="text-xl text-blue-500 pb-5">
+            <p className="text-sm font-mono text-blue-500 pb-5">
               {switch contract.totalSupply {
               | None => "..."->React.string
-              | Some(420) => "All 420 kittens were claimed! Thanks everyone!"->React.string
+              | Some(419) => "All 419 kittens were claimed! But there is one more... stay tuned!"->React.string
               | Some(totalSupply) =>
                 `Claimed kittens: ${totalSupply->string_of_int}/419`->React.string
               }}
             </p>
-            <p className="text-xl text-green-500 pb-10">
+            <p className="text-sm font-mono text-green-500 pb-10">
               {`Hello, ${wallet.account
                 ->Js.Nullable.toOption
                 ->Belt.Option.getWithDefault("")}`->React.string}
@@ -163,7 +163,7 @@ let make = () => {
             | _ =>
               <button
                 type_="button"
-                className={`bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto w-[400px] min-w-[400px] ${claimingStatus ==
+                className={`bg-green-500 py-5 px-5 uppercase text-white font-bold mt-auto w-[400px] min-w-[400px] font-mono ${claimingStatus ==
                     Claiming
                     ? "pointer-events-none opacity-75"
                     : ""}`}
@@ -178,7 +178,7 @@ let make = () => {
             }}
             {lastTxns->Js.Array2.length == 0
               ? React.null
-              : <h3 className="text-green-500 mt-10">
+              : <h3 className="text-green-500 mt-10 text-sm font-mono">
                   {"Your last minted kittens"->React.string}
                 </h3>}
             <ul className="text-green-500 my-5">
@@ -200,7 +200,9 @@ let make = () => {
                     />
                   </a>
                   <div className="flex flex-col pl-5">
-                    {`You claimed Kitten #${txn.events.transfer.returnValues.tokenId}`->React.string}
+                    <span className="font-mono text-sm">
+                      {`You claimed Kitten #${txn.events.transfer.returnValues.tokenId}`->React.string}
+                    </span>
                     <a
                       href={`https://ftmscan.com/tx/${txn.transactionHash}`}
                       className="underline text-md"
