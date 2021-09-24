@@ -3934,6 +3934,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Sprite.Exps.Y,
 		C3.Plugins.Touch.Cnds.OnTouchStart,
 		C3.Plugins.System.Cnds.CompareBoolVar,
+		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.Text.Acts.SetVisible,
 		C3.Plugins.Button.Acts.SetVisible,
