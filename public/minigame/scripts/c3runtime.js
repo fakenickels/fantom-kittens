@@ -3936,6 +3936,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Cnds.CompareBoolVar,
 		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.Text.Acts.SetVisible,
+		C3.Plugins.Button.Acts.SetVisible,
 		C3.Plugins.System.Acts.SetBoolVar,
 		C3.Behaviors.Timer.Acts.StartTimer,
 		C3.Plugins.Particles.Acts.SetSpraying,
@@ -3994,6 +3995,7 @@ self.C3_JsPropNameTable = [
 	{LocalStorage: 0},
 	{TiledBackground: 0},
 	{Particles: 0},
+	{ButtonMenu: 0},
 	{kittenFrame: 0},
 	{playing: 0},
 	{color: 0}
