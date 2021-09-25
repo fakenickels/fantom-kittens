@@ -23,7 +23,7 @@ export const useWeb3 = () => {
 
 export const useContractMethods = () => {
   const [_france, contract] = useWeb3();
-  const [totalSupply, setTotalSupply] = React.useState()
+  const [totalSupply, setTotalSupply] = React.useState<undefined | number>();
 
   const wallet = useWallet();
 
@@ -34,7 +34,11 @@ export const useContractMethods = () => {
     });
   };
 
-  const getTotalSupply = () => contract.current?.methods.totalSupply().call().then(setTotalSupply);
+  const getTotalSupply = () =>
+    contract.current?.methods
+      .totalSupply()
+      .call()
+      .then((supply: string) => setTotalSupply(Number(supply)));
 
-  return {claim, getTotalSupply, totalSupply};
+  return { claim, getTotalSupply, totalSupply };
 };
