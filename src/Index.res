@@ -165,7 +165,7 @@ let make = () => {
                 ->Belt.Option.getWithDefault("")}`->React.string}
             </p>
             {switch contract.totalSupply {
-            | Some(420) => React.null
+            | Some(419) => React.null
             | _ =>
               <button
                 type_="button"
