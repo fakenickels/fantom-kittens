@@ -7,8 +7,9 @@ contract KittenNameService {
   address owner;
   ERC721 Kittens = ERC721(0xfD211f3B016a75bC8d73550aC5AdC2f1cAE780C0);
 
-  constructor() {
+  constructor(address kittensAddress) {
     owner = msg.sender;
+    Kittens = ERC721(kittensAddress);
   }
 
   function setKittenName(uint256 kittenId, string memory newKittenName) public {

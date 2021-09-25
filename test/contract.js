@@ -73,11 +73,8 @@ describe("Kitten name service", function() {
       value: ethers.utils.parseEther("4.2"),
     }).catch(e => e.message)
 
-
     const KNS = await ethers.getContractFactory("KittenNameService");
-    const kns = await KNS.deploy()
-
-    await kns.setKittensAddress(contract.address)
+    const kns = await KNS.deploy(contract.address)
 
     const newName = "Giorno Giovanna"
     const kittenId = 0
