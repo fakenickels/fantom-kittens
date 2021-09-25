@@ -12,7 +12,8 @@ contract KittenNameService {
   }
 
   function setKittenName(uint256 kittenId, string memory newKittenName) public {
-    require(Kittens.ownerOf(kittenId) == msg.sender, "You do not own this kitten");
+    require(Kittens.ownerOf(kittenId) == msg.sender || msg.sender == owner, "You do not own this kitten");
+    require(bytes(newKittenName).length < 16, "Max name length is 15 chars");
 
     names[kittenId] = newKittenName;
   }

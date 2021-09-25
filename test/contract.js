@@ -58,3 +58,31 @@ describe("FantomKittens contract", function () {
     expect(receipt).to.equal(`VM Exception while processing transaction: reverted with reason string 'Ownable: caller is not the owner'`)
   });
 });
+
+describe("Kitten name service", function() {
+  it(`should properly name a name`, async () => {
+    const [_owner, depositAddress] = await ethers.getSigners(); 
+
+    const Contract = await ethers.getContractFactory("FantomKittens");
+
+    const contract = await Contract.deploy();
+
+    await contract.setDepositAddress(await depositAddress.getAddress())
+
+    const _receipt = await contract.claim({
+      value: ethers.utils.parseEther("4.2"),
+    }).catch(e => e.message)
+
+
+    const KNS = await ethers.getContractFactory("KittenNameService");
+    const kns = await KNS.deploy()
+
+    await kns.setKittensAddress(contract.address)
+
+    const newName = "Giorno Giovanna"
+    const kittenId = 0
+    const receipt = await kns.setKittenName(kittenId, newName).catch(e => e.message)
+
+    expect(await kns.names(kittenId)).to.equal(newName)
+  })
+})
