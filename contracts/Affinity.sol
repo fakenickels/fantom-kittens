@@ -46,6 +46,7 @@ contract Affinity is IERC721Receiver {
     require(ownerOf[tokenId] == msg.sender);
 
     kittensAffinities[tokenId] = 0;
+    ownerOf[tokenId] = address(0x0);
 
     Kittens.approve(msg.sender, tokenId);
     Kittens.safeTransferFrom(address(this), msg.sender, tokenId);
