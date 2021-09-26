@@ -3934,10 +3934,8 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Sprite.Exps.Y,
 		C3.Plugins.Touch.Cnds.OnTouchStart,
 		C3.Plugins.System.Cnds.CompareBoolVar,
-		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.Text.Acts.SetVisible,
-		C3.Plugins.Button.Acts.SetVisible,
 		C3.Plugins.System.Acts.SetBoolVar,
 		C3.Behaviors.Timer.Acts.StartTimer,
 		C3.Plugins.Particles.Acts.SetSpraying,
@@ -3980,6 +3978,7 @@ self.C3_JsPropNameTable = [
 	{bad: 0},
 	{Bullet: 0},
 	{Sine: 0},
+	{Sine2: 0},
 	{candleFat: 0},
 	{parent: 0},
 	{Pin: 0},
@@ -3996,7 +3995,6 @@ self.C3_JsPropNameTable = [
 	{LocalStorage: 0},
 	{TiledBackground: 0},
 	{Particles: 0},
-	{ButtonMenu: 0},
 	{kittenFrame: 0},
 	{playing: 0},
 	{color: 0}
@@ -4128,17 +4126,17 @@ self.C3_ExpressionFuncs = [
 			const v0 = p._GetNode(0).GetVar();
 			return () => and("Score: ", v0.GetValue());
 		},
-		() => 1,
+		() => 0.1,
 		() => "enemy",
 		p => {
 			const n0 = p._GetNode(0);
 			const v1 = p._GetNode(1).GetVar();
 			const f2 = p._GetNode(2).GetBoundMethod();
-			return () => (n0.ExpObject() - ((400 * (1 + (v1.GetValue() / 20))) * f2()));
+			return () => (n0.ExpObject() - ((800 * (1 + (v1.GetValue() / 200))) * f2()));
 		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
-			return () => (400 * (1 + (v0.GetValue() / 20)));
+			return () => (800 * (1 + (v0.GetValue() / 200)));
 		},
 		p => {
 			const n0 = p._GetNode(0);
@@ -4150,13 +4148,7 @@ self.C3_ExpressionFuncs = [
 			const f0 = p._GetNode(0).GetBoundMethod();
 			const f1 = p._GetNode(1).GetBoundMethod();
 			const v2 = p._GetNode(2).GetVar();
-			return () => (40 + Math.floor(f0((300 + f1(v2.GetValue(), 150)))));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const f1 = p._GetNode(1).GetBoundMethod();
-			const v2 = p._GetNode(2).GetVar();
-			return () => (40 + Math.floor(f0((500 + f1(v2.GetValue(), 150)))));
+			return () => (40 + Math.floor(f0((100 + f1((v2.GetValue() * 5), 150)))));
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
@@ -4170,7 +4162,7 @@ self.C3_ExpressionFuncs = [
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			const v1 = p._GetNode(1).GetVar();
-			return () => f0((1 - (v1.GetValue() / 70)), 0.2);
+			return () => f0((0.9 - (v1.GetValue() / 250)), 0.2);
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
@@ -4180,6 +4172,7 @@ self.C3_ExpressionFuncs = [
 		() => 6113014,
 		() => "green",
 		() => 8506126,
+		() => 1,
 		p => {
 			const n0 = p._GetNode(0);
 			return () => n0.ExpInstVar();
