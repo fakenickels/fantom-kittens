@@ -17,6 +17,7 @@ contract KittenNameService {
   }
 
   function setKittenName(uint256 kittenId, string memory newKittenName) public {
+    require(Kittens.ownerOf(kittenId) == address(AffinityContract), "Kitten is not locked in Affinity");
     require(AffinityContract.ownerOf(kittenId) == msg.sender, "You do not own this kitten");
     require(AffinityContract.affinityBalanceOf(kittenId) >= affinityCost);
     require(bytes(newKittenName).length < 16, "Max name length is 15 chars");

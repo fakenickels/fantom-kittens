@@ -28,9 +28,10 @@ contract Affinity is IERC721Receiver {
 
   function pet(uint256 tokenId) public returns(uint256 affinity) {
     require(msg.sender == ownerOf[tokenId], "Only owner");
+    require(Kittens.ownerOf(tokenId) == address(this));
     require(lastPetting[tokenId] == 0 || (block.timestamp - lastPetting[tokenId]) >= 1 days, "Cannot call twice in a day");
 
-    kittensAffinities[tokenId] += 1;
+    kittensAffinities[tokenId] += emission;
     lastPetting[tokenId] = block.timestamp;
 
     affinity = kittensAffinities[tokenId];
