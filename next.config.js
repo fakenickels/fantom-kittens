@@ -21,21 +21,19 @@ module.exports = {
       },
     ];
   },
-  rewrites: async () => {
-    return {
-      afterFiles: [
-        {
-          source: "/minigame",
-          destination: "/minigame/index.html",
-        },
-      ],
-      fallback: [
-        {
-          source: "/:path*",
-          destination: `/minigame/:path*`,
-        },
-      ],
-    };
+  redirects: async () => {
+    return [
+      {
+        source: "/minigame",
+        destination: "/minigame/index.html",
+        permanent: true,
+      },
+      {
+        source: "/generator",
+        destination: "/generator/index.html",
+        permanent: true,
+      },
+    ]
   },
   reactStrictMode: true,
 };
