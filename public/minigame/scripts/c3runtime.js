@@ -3941,6 +3941,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Particles.Acts.SetSpraying,
 		C3.Plugins.TiledBg.Acts.SetImageOffsetX,
 		C3.Plugins.TiledBg.Exps.ImageOffsetX,
+		C3.Plugins.System.Exps.min,
 		C3.Plugins.System.Exps.dt,
 		C3.Plugins.System.Cnds.ForEach,
 		C3.Behaviors.Bullet.Acts.SetSpeed,
@@ -3948,7 +3949,6 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Acts.CreateObject,
 		C3.Plugins.Sprite.Exps.Height,
 		C3.Plugins.Sprite.Acts.SetHeight,
-		C3.Plugins.System.Exps.min,
 		C3.Plugins.Sprite.Acts.MoveAtAngle,
 		C3.Plugins.System.Exps.choose,
 		C3.Plugins.Sprite.Acts.SetInstanceVar,
@@ -4130,13 +4130,15 @@ self.C3_ExpressionFuncs = [
 		() => "enemy",
 		p => {
 			const n0 = p._GetNode(0);
-			const v1 = p._GetNode(1).GetVar();
-			const f2 = p._GetNode(2).GetBoundMethod();
-			return () => (n0.ExpObject() - ((800 * (1 + (v1.GetValue() / 200))) * f2()));
+			const f1 = p._GetNode(1).GetBoundMethod();
+			const v2 = p._GetNode(2).GetVar();
+			const f3 = p._GetNode(3).GetBoundMethod();
+			return () => (n0.ExpObject() - (f1((800 * (1 + (v2.GetValue() / 100))), 3200) * f3()));
 		},
 		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => (800 * (1 + (v0.GetValue() / 200)));
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const v1 = p._GetNode(1).GetVar();
+			return () => f0((800 * (1 + (v1.GetValue() / 100))), 3200);
 		},
 		p => {
 			const n0 = p._GetNode(0);
@@ -4148,7 +4150,13 @@ self.C3_ExpressionFuncs = [
 			const f0 = p._GetNode(0).GetBoundMethod();
 			const f1 = p._GetNode(1).GetBoundMethod();
 			const v2 = p._GetNode(2).GetVar();
-			return () => (40 + Math.floor(f0((100 + f1((v2.GetValue() * 5), 150)))));
+			return () => (400 - Math.floor(f0((100 + f1(v2.GetValue(), 200)))));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			const v2 = p._GetNode(2).GetVar();
+			return () => (500 - Math.floor(f0((100 + f1(v2.GetValue(), 350)))));
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
@@ -4162,7 +4170,7 @@ self.C3_ExpressionFuncs = [
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			const v1 = p._GetNode(1).GetVar();
-			return () => f0((0.9 - (v1.GetValue() / 250)), 0.2);
+			return () => f0((0.8 - (v1.GetValue() / 150)), 0.2);
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
