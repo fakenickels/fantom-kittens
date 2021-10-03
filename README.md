@@ -1,6 +1,6 @@
 # FantomKittens
 
-We are live!!! You can now claim one of the 420 available Fantom Kittens now on our claiming website!
+**Claiming is over**
 
 https://kittens.fakeworms.studio
 
