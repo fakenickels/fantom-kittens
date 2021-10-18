@@ -18,6 +18,7 @@ async function main() {
     console.log("Verifying ze contract")
     await hre.run("verify:verify", {
       address: contract.address,
+      contract: "contracts/RKITTEN.sol:RKITTEN"
     });
   }
 }
