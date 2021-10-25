@@ -17,9 +17,19 @@ export default function Header() {
       </Link>
 
       <div className="ml-auto flex flex-row text-white space-x-4">
-        <a href="https://discord.gg/VB9nXy28Rw" target="_blank">Community</a>
-        <a href="/assets/manifest.txt" target="_blank">The Kitten Society</a>
-        <a href="/assets/about_us.txt" target="_blank">About us</a>
+        <a
+          href="https://discord.gg/VB9nXy28Rw"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Community
+        </a>
+        <a href="/assets/manifest.txt" target="_blank" rel="noreferrer">
+          The Kitten Society
+        </a>
+        <a href="/assets/about_us.txt" target="_blank" rel="noreferrer">
+          About us
+        </a>
       </div>
     </div>
   );
