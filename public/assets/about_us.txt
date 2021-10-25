@@ -1,0 +1,42 @@
+👉  About the devs
+
+@fakenickels 
+Working at Vanna, a brazilian fintech startup making it easier for people to send charges in the digital economy using Pix which is the new Brazil's Central Bank payment system. I'm mostly known for my work in the ReScript/React Brasil community, giving classes, talks, promoting open source and memes of course.
+
+Since last year I have been diving deeper and deeper in the crypto economony, memes, DeFi and community.
+
+I've helped Worms with Kittens by deploying and managing the contracts.
+
+I'm having a blast with the project and I really wish to keep going doing more fun experiments in the area with FakeWorms Studio.
+
+@MarcoWorms 
+Working at Hash, a payments infrastructure company in Brazil, I've helped the company scale from 10 to over 100 people and today I work with anything that has technoilogy and needs a more people-oriented opinion.
+
+My passion is designing things and see people play with what I've built, check out https://worms.itch.io/necrosphere64 which is a web-playable sequel of another game I made in the past, Necrosphere (Steam, IOS, PS4, Xbox One, PS Vita, Nintendo Switch).
+
+I also love open source and javascript which I activelly try to teach people about it https://github.com/MarcoWorms/learn.js
+
+I've built the Fantom Kitten generator using my game engines knowledge and teamed up with Fakenickels in order to bring it to life inside the Fantom Network.
+
+At Fantom Kittens I work along with Fakenickels on deciding the next features and partnerships. If you want to talk about anything related to this project or this community feel free to reach me out!
+
+
+👉  About the kittens image license
+
+NFTs are new and we believe that the token is much more than the image itself. All kitten images are public licensed and free for everyone to use. We believe that even if people don't hold a kitten NFT they can still give and take from the community as much as everyone else and the more we spread kitten images all over the internet the stronger we get. We incentivize people to go to 🌐│links and generate a kitten image to use as profile picture anywhere they want if they don't have a kitten NFT. 
+
+👉  Clarifying rKITTEN purpose
+
+rKITTEN is a token that Fantom Kitten holders received for having fantom kittens in their wallets. We've raised a Liquidity Pool in order to make this token have a market value where people could either sell the token for instant liquidity or hold to sell whenever the person feels is a good time to sell. (see more at 📈│rkitten-stonkenomics )
+
+rKITTEN is NOT guaranteed return of investment to anyone, even people that minted a Fantom Kitten for 4.2 FTM is not guaranteed to have their minting investment returned.
+
+rKITTEN is an experimental DeFi product that we made in order to further strengthen our community, we can now reach out for potential partnerships with dexes for example
+
+👉  About our community philosophy
+
+Treat other people with respect.
+
+We've published the kitten collection because we really like its artistic concept. We have never given any direct incentive to any influencer in order to get the kittens known. The only active marketing effort we do is posting at our studio twitter about our community and our features, for example, you won't see us pushing people to buy/sell a kitten
+
+We believe in a community that is built organically and out of respect, we will always be open to engaging in constructive discussions about our structures. Both devs maintain this project in their free time and we'd like this environment to be light-hearted so we can always enjoy our time in this community. 

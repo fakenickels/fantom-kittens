@@ -230,12 +230,14 @@ export default function Rewards() {
                   loading={isLoading}
                   onClick={() => {
                     if (wallet?.account) {
-                      rKITTENFTMPair.approve(
+                      (rKITTENFTMPair.approve(
                         wallet.account,
                         process.env
                           .NEXT_PUBLIC_MASTER_KITTEN_CONTRACT_ADDRESS as string,
                         MAX_ALLOWANCE
-                      );
+                      ) as any)
+                      .on("receipt", () => loadInfos())
+                      .on("confirmation", () => loadInfos());
                     }
                   }}
                 >
