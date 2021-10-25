@@ -11,7 +11,7 @@ async function main() {
   const args = [
     rKittenAddress,
     ownerAddress,
-    "42000000000000000"
+    "4861111111000000"
   ] 
   const contract = await Contract.deploy(...args);
   await contract.deployed();
@@ -25,7 +25,7 @@ async function main() {
       constructorArguments: [
         rKittenAddress,
         ownerAddress,
-        "42000000000000000",
+        "4861111111000000",
       ],
     });
   }
