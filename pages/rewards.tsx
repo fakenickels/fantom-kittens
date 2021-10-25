@@ -184,9 +184,9 @@ export default function Rewards() {
         {wallet.status === "connected" ? (
           <>
             <Flex justifyContent="center" width="100%">
-              <p style={{ margin: 5, marginRight: 60 }}>
+              {/* <p style={{ margin: 5, marginRight: 60 }}>
                 <b>Total U$D Liquidity: </b> U$ ...
-              </p>
+              </p> */}
               <p style={{ margin: 5, marginRight: 60 }}>
                 <b>FTM Liquidity:</b>{" "}
                 <FormatWei wei={rKITTENFTMPair.reserves?.reserve0} /> FTM
