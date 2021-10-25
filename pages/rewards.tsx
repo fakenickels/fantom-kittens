@@ -253,10 +253,10 @@ export default function Rewards() {
             {isApprovedToStake ? (
               <>
 
-                <Flex alignItems="space-around" width="100%">
-                  {renderStakePanel()}
-                  {renderUnstakePanel()}
-                </Flex>
+                
+                {renderStakePanel()}
+                {renderUnstakePanel()}
+                
 
                 <Flex flexDirection="column" alignItems="center" width="100%">
                   <h2>4) Harvest rKITTEN rewards</h2>
