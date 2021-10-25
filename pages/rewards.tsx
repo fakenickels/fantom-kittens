@@ -58,7 +58,7 @@ export default function Rewards() {
           alignItems="center"
           className=""
         >
-          <h3 className="balance rainbow">Wallet LP Tokens</h3>
+          <h3 className="balance">Wallet LP Tokens</h3>
           <h3 className="balance">
             <FormatWei wei={rKITTENFTMPair.balance} />
           </h3>
@@ -127,7 +127,7 @@ export default function Rewards() {
         width="100%"
         className="py-10"
       >
-        <h3 className="balance rainbow">Staked LP Tokens</h3>
+        <h3 className="balance">Staked LP Tokens</h3>
         <h3 className="balance">
           <FormatWei wei={masterKitten.userInfo?.amount} />
         </h3>
@@ -252,15 +252,20 @@ export default function Rewards() {
 
             {isApprovedToStake ? (
               <>
-                {renderStakePanel()}
-                {renderUnstakePanel()}
+
+                <Flex alignItems="space-around" width="100%">
+                  {renderStakePanel()}
+                  {renderUnstakePanel()}
+                </Flex>
 
                 <Flex flexDirection="column" alignItems="center" width="100%">
                   <h2>4) Harvest rKITTEN rewards</h2>
+                  <br />
                   <h3>FTM-rKITTEN LP tokens staked</h3>
                   <h3>
                     <FormatWei wei={masterKitten.userInfo?.amount} /> spLP
                   </h3>
+                  <br />
                 </Flex>
                 <Flex flexDirection="column" alignItems="center" width="100%">
                   <h3>rKITTEN available to harvest</h3>
@@ -324,6 +329,7 @@ export default function Rewards() {
             h1 {
               font-family: "Press Start 2p", cursive;
               font-size: 50px;
+              text-align: center;
             }
 
             h3 {
