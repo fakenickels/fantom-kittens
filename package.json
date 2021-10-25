@@ -33,7 +33,8 @@
     "rescript": "^9.1.4",
     "swr": "^1.0.1",
     "use-wallet": "^0.10.0",
-    "web3": "^1.5.2"
+    "web3": "^1.5.2",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
