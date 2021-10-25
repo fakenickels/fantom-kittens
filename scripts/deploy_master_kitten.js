@@ -2,8 +2,8 @@ const hre = require("hardhat");
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
-  // console.log("Deploying contracts with the account:", deployer.address);
-  // console.log("Account balance:", (await deployer.getBalance()).toString());
+  console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
   const rKittenAddress = "0x07e796368ac8480f74b57eba6391733ede0dcad7";
   const ownerAddress = "0xC10F558700972312119afBc7b6eBEdDc8e8ef4BC";
