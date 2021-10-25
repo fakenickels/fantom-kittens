@@ -1,7 +1,7 @@
 import React from "react";
 import Web3 from "web3";
 import masterKittenABI from "../../artifacts/contracts/MasterKitten.sol/MasterKitten.json";
-import {BigNumber} from "ethers"
+import {BigNumber, utils} from "ethers"
 
 interface PoolInfo {
   lpToken: string;
@@ -49,7 +49,6 @@ export const useMasterKitten = () => {
 
   const getUserInfo = (poolId: number, wallet: string): Promise<UserInfo> => {
     return masterKittenContract.current?.methods.userInfo(poolId, wallet).call().then((res: any) => {
-      console.log(res)
       setUserInfo({
         amount: res[0],
         rewardDebt: res[1],
@@ -58,14 +57,12 @@ export const useMasterKitten = () => {
     });
   }
 
-  const withdraw = (wallet: string, poolId: number, amount: BigNumber): Promise<any> => {
-    console.log(amount)
-    console.log(amount.toString())
-    return masterKittenContract.current?.methods.withdraw(poolId, amount).send({from: wallet});
+  const withdraw = (wallet: string, poolId: number, amount: string): Promise<any> => {
+    return masterKittenContract.current?.methods.withdraw(poolId, utils.parseEther(amount)).send({from: wallet});
   }
 
-  const deposit = (wallet: string, poolId: number, amount: BigNumber): Promise<any> => {
-    return masterKittenContract.current?.methods.deposit(poolId, amount).send({from: wallet});
+  const deposit = (wallet: string, poolId: number, amount: string): Promise<any> => {
+    return masterKittenContract.current?.methods.deposit(poolId, utils.parseEther(amount)).send({from: wallet});
   }
 
   return {

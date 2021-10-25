@@ -56,7 +56,9 @@ contract MasterKitten is Ownable {
     uint256 public rKITTENPerSecond;
 
     // set a max rKITTEN per second, which can never be higher than 1 per second
-    uint256 public constant maxRKittenPerSecond = 0.004861111111 ether;
+    uint256 public constant maxRKittenPerSecond = 1e18;
+
+    address public constant daoAddress = 0xC748E6dE30222F4e9bC01812860FF005A82543E6;
 
     uint256 public constant MaxAllocPoint = 4000;
 
@@ -254,9 +256,11 @@ contract MasterKitten is Ownable {
     }
 
     // Dev use only in case of contract migration
-    function removeRewards() external onlyOwner {
+    function endRewards() external onlyOwner {
         uint256 rKITTENBal = rKITTEN.balanceOf(address(this));
-        rKITTEN.transfer(devaddr, rKITTENBal);
+        rKITTENPerSecond = 0;
+        // sends rKITTEN back to the DAO
+        rKITTEN.transfer(daoAddress, rKITTENBal);
     }
 
     // Update dev address by the previous dev.

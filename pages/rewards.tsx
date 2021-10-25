@@ -13,23 +13,25 @@ import fetcher from "../src/contracts/fetcher";
 import { MAX_ALLOWANCE } from "../src/contracts/constants";
 import InputWei from "../src/components/InputWei";
 import { BigNumber } from "ethers";
+import { useFountain } from "../components/EmojiFountain";
 
 export default function Rewards() {
+  const fountain = useFountain();
   const wallet = useWallet();
   const masterKitten = useMasterKitten();
   const rKITTENFTMPair = useRKittenFTMPair();
-  const [stakeAmountInput, setStakeAmountInput] = React.useState(
-    BigNumber.from(0)
-  );
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [stakeAmountInput, setStakeAmountInput] = React.useState("0");
+  const [unstakeAmountInput, setUnstakeAmountInput] = React.useState("0");
+  const [currentTab, setCurrentTab] = React.useState("stake");
   const { data: allowance, error } = useSWR<string>(
     ["rKITTENPairFTM/allowance", wallet?.account],
     fetcher
   );
-  const { mutate } = useSWRConfig();
 
   const isApprovedToStake = allowance === MAX_ALLOWANCE;
 
-  React.useEffect(() => {
+  const loadInfos = () => {
     if (wallet?.account) {
       rKITTENFTMPair.getReserves();
       rKITTENFTMPair.getBalance(wallet.account);
@@ -37,12 +39,132 @@ export default function Rewards() {
       // get pending rewards
       masterKitten.getPendingRKITTEN(0, wallet.account);
     }
+  };
+
+  React.useEffect(() => {
+    loadInfos();
   }, [wallet?.account]);
 
+  const renderStakePanel = () => {
+    return (
+      <>
+        <Flex width="100%" justifyContent="center">
+          <h2> 3) Stake your FTM + rKITTEN spLP Tokens</h2>
+        </Flex>
+
+        <Flex
+          flexDirection="column"
+          width="100%"
+          alignItems="center"
+          className="bg-gray-700"
+        >
+          <h3 className="balance rainbow">Wallet LP Tokens</h3>
+          <h3 className="balance">
+            <FormatWei wei={rKITTENFTMPair.balance} />
+          </h3>
+          <br />
+        </Flex>
+
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          className="bg-gray-700"
+          width="100%"
+        >
+          <div>
+            <InputWei
+              id="amount-to-stake"
+              name="amount-to-stake"
+              type="amount-to-stake"
+              value={stakeAmountInput}
+              onChange={(value: string) => setStakeAmountInput(value)}
+              placeholder="0"
+              maxValue={rKITTENFTMPair.balance || 0}
+            />
+          </div>
+          <br />
+          <Box>
+            <Button
+              onClick={() => {
+                if (wallet?.account) {
+                  setIsLoading(true);
+                  masterKitten
+                    .deposit(wallet?.account, 0, stakeAmountInput)
+                    .then(() => setStakeAmountInput("0.0"))
+                    .then(() => {
+                      setTimeout(() => {
+                        loadInfos();
+                      }, 1000);
+                    })
+                    .finally(() => setIsLoading(false));
+                }
+              }}
+              disabled={isLoading}
+            >
+              Stake LP tokens
+            </Button>{" "}
+          </Box>
+        </Flex>
+      </>
+    );
+  };
+
+  const renderUnstakePanel = () => {
+    return (
+      <Flex
+        flexDirection="column"
+        alignItems="center"
+        width="100%"
+        className="py-10 bg-gray-700"
+      >
+        <h3 className="balance rainbow">Staked LP Tokens</h3>
+        <h3 className="balance">
+          <FormatWei wei={masterKitten.userInfo?.amount} />
+        </h3>
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <InputWei
+            id="amount-to-stake"
+            name="amount-to-stake"
+            type="amount-to-stake"
+            value={unstakeAmountInput}
+            onChange={(value: string) => setUnstakeAmountInput(value)}
+            placeholder="0"
+            maxValue={masterKitten.userInfo?.amount || 0}
+          />
+          <br />
+          <Box>
+            <Button
+              disabled={isLoading}
+              onClick={() => {
+                if (wallet?.account) {
+                  setIsLoading(true);
+                  masterKitten
+                    .withdraw(wallet?.account, 0, unstakeAmountInput)
+                    .then((res) => {
+                      setUnstakeAmountInput("0.0");
+                    })
+                    .then(loadInfos)
+                    .finally(() => setIsLoading(false));
+                }
+              }}
+            >
+              Unstake LP tokens
+            </Button>
+          </Box>
+        </Flex>
+      </Flex>
+    );
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full pb-20">
       <Header />
-      <Flex flexDirection="column" alignItems="center" width="100%">
+      <Box width="100%">
         <Head>
           <title>Rewards</title>
         </Head>
@@ -65,7 +187,7 @@ export default function Rewards() {
             <br />
             <Flex
               flexDirection="column"
-              width="600px"
+              width="100%"
               alignItems="center"
               justifyContent="space-between"
             >
@@ -81,10 +203,10 @@ export default function Rewards() {
               </a>
               <br />
             </Flex>
-            {Number(rKITTENFTMPair?.balance) > 0 && !isApprovedToStake ? (
-              <Flex flexDirection="column" width="600px" alignItems="center">
+            {!isApprovedToStake ? (
+              <Flex flexDirection="column" width="100%" alignItems="center">
                 <h2>
-                  2) Aprove our FTM + rKITTEN Liquidity Pool Stake Contract
+                  2) Approve our FTM + rKITTEN Liquidity Pool Stake Contract
                 </h2>
                 {isApprovedToStake ? (
                   <span className="text-green-500">Approved</span>
@@ -93,12 +215,13 @@ export default function Rewards() {
                 )}
                 <br />
                 <Button
+                  loading={isLoading}
                   onClick={() => {
                     if (wallet?.account) {
                       rKITTENFTMPair.approve(
                         wallet.account,
                         process.env
-                          .NEXT_NEXT_PUBLIC_MASTER_KITTEN_CONTRACT_ADDRESS as string,
+                          .NEXT_PUBLIC_MASTER_KITTEN_CONTRACT_ADDRESS as string,
                         MAX_ALLOWANCE
                       );
                     }
@@ -112,101 +235,45 @@ export default function Rewards() {
 
             {isApprovedToStake ? (
               <>
-                <Flex width="100%" justifyContent="center">
-                  <h2> 3) Stake your FTM + rKITTEN spLP Tokens</h2>
-                </Flex>
+                {renderStakePanel()}
+                {renderUnstakePanel()}
 
-                <Flex flexDirection="column" alignItems="center">
-                  <h3 className="balance rainbow">Wallet LP Tokens</h3>
-                  <h3 className="balance">
-                    <FormatWei wei={rKITTENFTMPair.balance} />
-                  </h3>
-                  <br />
-                  <Box>
-                    <Button className="h">10 %</Button>
-                    <Button className="h">25 %</Button>
-                    <Button className="h">50 %</Button>
-                    <Button className="h">75 %</Button>
-                    <Button className="h">100 %</Button>
-                  </Box>
-                </Flex>
-
-                <Flex
-                  flexDirection="column"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <Label htmlFor="amount-to-stake" fontSize="16px">
-                    Amount
-                  </Label>
-                  <InputWei
-                    id="amount-to-stake"
-                    name="amount-to-stake"
-                    type="amount-to-stake"
-                    value={stakeAmountInput}
-                    onChange={(value: BigNumber) => setStakeAmountInput(value)}
-                    placeholder="0"
-                  />
-                  <br />
-                  <Box>
-                    <Button
-                      onClick={() => {
-                        if (wallet?.account) {
-                          masterKitten.deposit(
-                            wallet?.account,
-                            0,
-                            stakeAmountInput
-                          );
-                        }
-                      }}
-                    >
-                      Stake LP tokens
-                    </Button>{" "}
-                    <Button
-                      onClick={() => {
-                        if (wallet?.account) {
-                          masterKitten.withdraw(
-                            wallet?.account,
-                            0,
-                            stakeAmountInput
-                          );
-                        }
-                      }}
-                    >
-                      Unstake LP tokens
-                    </Button>
-                  </Box>
-                </Flex>
-
-                <Flex flexDirection="column" alignItems="center">
-                  <h3 className="balance rainbow">Staked LP Tokens</h3>
-                  <h3 className="balance">
-                    <FormatWei wei={masterKitten.userInfo?.amount} />
-                  </h3>
-                  <br />
-                  <Box>
-                    <button className="h">10 %</button>
-                    <button className="h">25 %</button>
-                    <button className="h">50 %</button>
-                    <button className="h">75 %</button>
-                    <button className="h">100 %</button>
-                  </Box>
-                </Flex>
-                <h2>4) Harvest rKITTEN rewards</h2>
-                <Flex flexDirection="column" alignItems="center" width="600px">
+                <Flex flexDirection="column" alignItems="center" width="100%">
+                  <h2>4) Harvest rKITTEN rewards</h2>
                   <h3>FTM-rKITTEN LP tokens staked</h3>
                   <h3>
-                    <FormatWei wei={masterKitten.userInfo?.amount} />
+                    <FormatWei wei={masterKitten.userInfo?.amount} /> spLP
                   </h3>
                 </Flex>
-                <Flex flexDirection="column" alignItems="center" width="600px">
+                <Flex flexDirection="column" alignItems="center" width="100%">
                   <h3>rKITTEN available to harvest</h3>
                   <h3>
-                    <FormatWei wei={masterKitten.pendingRKITTEN} />
+                    <FormatWei wei={masterKitten.pendingRKITTEN} /> rKITTEN
                   </h3>
+                  <br />
+                  <button
+                    className="harvest"
+                    disabled={isLoading}
+                    ref={fountain.ref}
+                    onClick={() => {
+                      // calls deposit with nothing to harvest
+                      if (wallet?.account) {
+                        setIsLoading(true);
+                        masterKitten
+                          .deposit(wallet.account, 0, "0.0")
+                          .then(() => {
+                            fountain.start()
+                            setTimeout(() => {
+                              loadInfos();
+                            }, 1000);
+                          })
+                          .finally(() => setIsLoading(false));
+                      }
+                    }}
+                  >
+                    Harvest
+                  </button>
                 </Flex>
-                <br />
-                <button className="harvest">Harvest</button>
               </>
             ) : null}
           </>
@@ -301,13 +368,16 @@ export default function Rewards() {
               );
               color: #000;
             }
-
+            .harvest[disabled] {
+              opacity: 0.75;
+              pointer-events: none;
+            }
             .balance {
               font-family: "Press Start 2p", cursive;
             }
           `}
         </style>
-      </Flex>
+      </Box>
     </div>
   );
 }
