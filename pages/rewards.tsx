@@ -103,6 +103,9 @@ export default function Rewards() {
                       setStakeAmountInput("0.0");
                       setIsLoading(false);
                     })
+                    .on("confirmation", () => {
+                      loadInfos()
+                    })
                     .on("error", () => setIsLoading(false));
                 }
               }}
@@ -271,7 +274,6 @@ export default function Rewards() {
                     ref={fountain.ref}
                     onClick={() => {
                       // calls deposit with nothing to harvest
-                      fountain.start();
                       if (wallet?.account) {
                         setIsLoading(true);
                         (masterKitten.deposit(wallet.account, 0, "0.0") as any)
