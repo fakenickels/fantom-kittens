@@ -56,7 +56,7 @@ export default function Rewards() {
           flexDirection="column"
           width="100%"
           alignItems="center"
-          className="bg-gray-700"
+          className=""
         >
           <h3 className="balance rainbow">Wallet LP Tokens</h3>
           <h3 className="balance">
@@ -69,7 +69,7 @@ export default function Rewards() {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          className="bg-gray-700"
+          className=""
           width="100%"
         >
           <div>
@@ -125,7 +125,7 @@ export default function Rewards() {
         flexDirection="column"
         alignItems="center"
         width="100%"
-        className="py-10 bg-gray-700"
+        className="py-10"
       >
         <h3 className="balance rainbow">Staked LP Tokens</h3>
         <h3 className="balance">
