@@ -5,8 +5,8 @@ async function main() {
   // console.log("Deploying contracts with the account:", deployer.address);
   // console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const rKittenAddress = "0x32ebfed3b4d7a9c547beb530e3728987920cb1cc";
-  const ownerAddress = await deployer.getAddress();
+  const rKittenAddress = "0x07e796368ac8480f74b57eba6391733ede0dcad7";
+  const ownerAddress = "0xC10F558700972312119afBc7b6eBEdDc8e8ef4BC";
   const Contract = await hre.ethers.getContractFactory("MasterKitten");
   const args = [
     rKittenAddress,
