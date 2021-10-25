@@ -25,8 +25,10 @@ export const useRKittenFTMPair = () => {
   const getReserves = (): number => {
     return contract.current?.methods.getReserves().call().then((res: any) => {
       setReserves({
-        reserve0: res[0],
-        reserve1: res[1],
+        // ftm
+        reserve0: res[1],
+        // kitten
+        reserve1: res[0],
         _blockTimestampLast: res[2],
       })
     });
