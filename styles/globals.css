@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  position: absolute;
+  width: 100%;
+}
+
+/* Emoji fountain */
+.particle {
+  pointer-events: none;
+  position: absolute;
+  will-change: transform;
+  z-index: 60;
+}
