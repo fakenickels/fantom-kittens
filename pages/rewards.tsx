@@ -89,15 +89,21 @@ export default function Rewards() {
               onClick={() => {
                 if (wallet?.account) {
                   setIsLoading(true);
-                  masterKitten
-                    .deposit(wallet?.account, 0, stakeAmountInput)
-                    .then(() => setStakeAmountInput("0.0"))
-                    .then(() => {
+                  (
+                    masterKitten.deposit(
+                      wallet?.account,
+                      0,
+                      stakeAmountInput
+                    ) as any
+                  )
+                    .on("receipt", () => {
                       setTimeout(() => {
                         loadInfos();
                       }, 1000);
+                      setStakeAmountInput("0.0");
+                      setIsLoading(false);
                     })
-                    .finally(() => setIsLoading(false));
+                    .on("error", () => setIsLoading(false));
                 }
               }}
               disabled={isLoading}
@@ -143,13 +149,19 @@ export default function Rewards() {
               onClick={() => {
                 if (wallet?.account) {
                   setIsLoading(true);
-                  masterKitten
-                    .withdraw(wallet?.account, 0, unstakeAmountInput)
-                    .then((res) => {
+                  (
+                    masterKitten.withdraw(
+                      wallet?.account,
+                      0,
+                      unstakeAmountInput
+                    ) as any
+                  )
+                    .on("receipt", () => {
+                      setIsLoading(false);
                       setUnstakeAmountInput("0.0");
+                      loadInfos();
                     })
-                    .then(loadInfos)
-                    .finally(() => setIsLoading(false));
+                    .on("error", () => setIsLoading(false));
                 }
               }}
             >
@@ -257,17 +269,21 @@ export default function Rewards() {
                     ref={fountain.ref}
                     onClick={() => {
                       // calls deposit with nothing to harvest
+                      fountain.start();
                       if (wallet?.account) {
                         setIsLoading(true);
-                        masterKitten
-                          .deposit(wallet.account, 0, "0.0")
-                          .then(() => {
-                            fountain.start()
+                        (masterKitten.deposit(wallet.account, 0, "0.0") as any)
+                          .on("receipt", () => {
+                            setIsLoading(false);
+                            fountain.start();
                             setTimeout(() => {
                               loadInfos();
+                              fountain.stop();
                             }, 1000);
                           })
-                          .finally(() => setIsLoading(false));
+                          .on("error", () => {
+                            setIsLoading(false);
+                          });
                       }
                     }}
                   >

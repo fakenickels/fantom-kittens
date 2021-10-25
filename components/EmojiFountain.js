@@ -17,6 +17,8 @@ export class Fountain {
     ];
     this.addHandlers();
     this.loop();
+    this.mouseX = 0;
+    this.mouseY = 0;
   }
 
   updateAnchor(anchor) {
@@ -138,6 +140,10 @@ export const useFountain = () => {
     start: () => {
       fountain.updateAnchor(ref.current)
       fountain.start();
+    },
+
+    stop() {
+      fountain.stop();
     }
   }
 }
