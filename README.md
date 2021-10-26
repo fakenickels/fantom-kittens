@@ -4,6 +4,9 @@
 
 https://kittens.fakeworms.studio
 
+**Rewards**
+https://kittens.fakeworms.studio/rewards
+
 
 ---
 
