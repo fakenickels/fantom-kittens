@@ -8,6 +8,12 @@ https://kittens.fakeworms.studio
 https://kittens.fakeworms.studio/rewards
 
 
+## Features
+
+## NFT contract and minting
+## LP Staking contract and interface
+
+
 ---
 
 Mainnet contract: `0xfD211f3B016a75bC8d73550aC5AdC2f1cAE780C0` 
