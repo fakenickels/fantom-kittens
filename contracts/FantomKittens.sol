@@ -31,8 +31,8 @@ contract FantomKittens is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         uint256 price = 4.2 ether;
 
         require(msg.value == price, "Invalid amount");
-        // THIS IS WRONG IF YOU ARE USING THIS CONTRACT REMOVE THE - 1 PART OF IT
-        require(id < (maxMintable - 1), "No more kittens are available");
+        // fixed for reference
+        require(id < maxMintable, "No more kittens are available");
 
         // transfer amount to owner
         depositAddress.transfer(price);
