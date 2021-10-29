@@ -1,0 +1,7 @@
+{
+  "id":"0",
+  "name":"Fantom Kitten - Honorary Sibelius",
+  "description":"A sweet honorary kitten",
+  "image": "ipfs://QmbXZn8qW4nV3aiV349L25ghk3Pg2pjEN3qztz8cxAA1U3",
+  "attributes": [{ "trait_type": "Honorary", "value": "Sibelius" }]
+}

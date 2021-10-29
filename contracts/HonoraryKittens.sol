@@ -16,7 +16,7 @@ contract HonoraryKittens is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable,
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    mapping(uint256 => address payable) public royaltyReceivers;
+    mapping(uint256 => address) public royaltyReceivers;
     mapping(uint256 => string) public kittenURIs;
     uint256 public constant royaltiesPercentage = 5;
 
@@ -24,11 +24,11 @@ contract HonoraryKittens is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable,
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    function grantRole(address addr) public onlyOwner {
+    function grantRole(address addr) public onlyRole(DEFAULT_ADMIN_ROLE) {
         _setupRole(MINTER_ROLE, addr);
     }
 
-    function mintNew(address payable creator, string memory metadataUri) public onlyRole(MINTER_ROLE) returns (uint256 createdId) {
+    function mintNew(address creator, string memory metadataUri) public onlyRole(MINTER_ROLE) returns (uint256 createdId) {
         uint256 id = _tokenIdCounter.current();
         _safeMint(msg.sender, _tokenIdCounter.current());
         
@@ -40,11 +40,11 @@ contract HonoraryKittens is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable,
         createdId = id;
     }
     
-    function setKittenRoyaltyReceiver(uint256 tokenId, address payable creator) public onlyOwner {
+    function setKittenRoyaltyReceiver(uint256 tokenId, address creator) public onlyRole(MINTER_ROLE) {
         royaltyReceivers[tokenId] = creator;
     }
     
-    function setKittenMetadataURI(uint256 tokenId, string memory metadataUri) public onlyOwner {
+    function setKittenMetadataURI(uint256 tokenId, string memory metadataUri) public onlyRole(MINTER_ROLE) {
         kittenURIs[tokenId] = metadataUri;
     }
 
