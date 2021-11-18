@@ -303,7 +303,7 @@ export default function Rewards() {
             ) : null}
           </>
         ) : (
-          <div className="pt-20">
+          <div className="flex justify-center pt-20">
             <button
               className="text-white border-2 border-white"
               onClick={() => wallet.connect("injected")}
