@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "rescript build && next build",
+    "build": "hardhat compile && rescript build && next build",
     "start": "next start",
     "lint": "next lint",
     "rescript:build": "rescript build",
@@ -57,6 +57,7 @@
     "typescript": "4.4.2"
   },
   "resolutions": {
+    "node-hid": "2.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   }
