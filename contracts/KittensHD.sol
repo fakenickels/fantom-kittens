@@ -71,7 +71,7 @@ contract KittensHD is
 
     _generalMintCounter.increment();
     // 4.2
-    uint256 price = 4.2 ether;
+    uint256 price = getPrice(quantity) * quantity;
 
     require(msg.value == price, "Invalid amount");
     require(id <= maxMintable, "No more kittens are available");

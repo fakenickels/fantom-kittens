@@ -37,5 +37,11 @@ export const useContractMethods = () => {
     });
   };
 
-  return { claim, ogClaim };
+  const honoraryClaim = async () => {
+    return contract.current.methods.honoraryClaim().send({
+      from: wallet?.account as string,
+    });
+  };
+
+  return { claim, ogClaim, honoraryClaim };
 };
