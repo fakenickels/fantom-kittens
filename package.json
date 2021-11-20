@@ -29,6 +29,7 @@
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-toastify": "^8.1.0",
     "rebass": "^4.0.7",
     "rescript": "^9.1.4",
     "swr": "^1.0.1",
