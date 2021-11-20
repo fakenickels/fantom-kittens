@@ -25,6 +25,9 @@ contract KittensHD is
   Counters.Counter private _daoClaimCounter = Counters.Counter(419);
   Counters.Counter private _generalMintCounter;
 
+  // bool to track whether the minting is enabled
+  bool private _mintingEnabled = true;
+
   address payable public depositAddress =
     payable(0xC748E6dE30222F4e9bC01812860FF005A82543E6);
   uint256 public maxMintable = 10_000;
@@ -42,6 +45,7 @@ contract KittensHD is
 
   constructor() ERC721("KittensHD", "KITTENHD") {
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    _setupRole(DAO_MEMBER, msg.sender);
   }
 
   function grantDAOMemberRole(address addr)
@@ -53,6 +57,16 @@ contract KittensHD is
 
   function _baseURI() internal pure override returns (string memory) {
     return "https://kittens.fakeworms.studio/api/kitten/";
+  }
+
+  // method to pause the minting of new tokens
+  function pauseMinting() public onlyRole(DAO_MEMBER) {
+    _mintingEnabled = false;
+  }
+
+  // method to unpause the minting of new tokens
+  function unpauseMinting() public onlyRole(DAO_MEMBER) {
+    _mintingEnabled = true;
   }
 
   function setDepositAddress(address payable to) public onlyOwner {
@@ -80,6 +94,7 @@ contract KittensHD is
 
   function claim(uint256 quantity) public payable {
     require(quantity > 0, "Invalid amount");
+    require(_mintingEnabled, "Minting is paused");
 
     uint256 id = _generalMintCounter.current();
     uint256 price = getPrice(quantity) * quantity;
@@ -96,6 +111,7 @@ contract KittensHD is
   }
 
   function ogClaim() public {
+    require(_mintingEnabled, "Minting is paused");
     for (uint256 i = 0; i < fantomKittens.balanceOf(msg.sender); i++) {
       uint256 id = fantomKittens.tokenOfOwnerByIndex(msg.sender, i);
 
@@ -104,6 +120,7 @@ contract KittensHD is
   }
 
   function honoraryClaim() public {
+    require(_mintingEnabled, "Minting is paused");
     for (uint256 i = 0; i < honoraryKittens.balanceOf(msg.sender); i++) {
       uint256 id = honoraryKittens.tokenOfOwnerByIndex(msg.sender, i);
 
