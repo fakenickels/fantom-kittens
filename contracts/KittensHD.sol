@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./FantomKittens.sol";
 import "./HonoraryKittens.sol";
 import "@openzeppelin/contracts/interfaces/IERC2981.sol";
@@ -15,11 +16,13 @@ contract KittensHD is
   ERC721Enumerable,
   ERC721URIStorage,
   Ownable,
-  IERC2981
+  IERC2981,
+  AccessControl
 {
   using Counters for Counters.Counter;
 
-  Counters.Counter private _tokenIdCounter = Counters.Counter(687);
+  Counters.Counter private _tokenIdCounter = Counters.Counter(686);
+  Counters.Counter private _daoClaimCounter = Counters.Counter(419);
   Counters.Counter private _generalMintCounter;
 
   address payable public depositAddress =
@@ -35,7 +38,18 @@ contract KittensHD is
   HonoraryKittens honoraryKittens =
     HonoraryKittens(0xE65469083B4f50d1EcD089584c671Bb1d23F9AC7);
 
-  constructor() ERC721("KittensHD", "KITTENHD") {}
+  bytes32 public constant DAO_MEMBER = keccak256("DAO_MEMBER");
+
+  constructor() ERC721("KittensHD", "KITTENHD") {
+    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+  }
+
+  function grantDAOMemberRole(address addr)
+    public
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    _setupRole(DAO_MEMBER, addr);
+  }
 
   function _baseURI() internal pure override returns (string memory) {
     return "https://kittens.fakeworms.studio/api/kitten/";
@@ -65,21 +79,20 @@ contract KittensHD is
   }
 
   function claim(uint256 quantity) public payable {
-    uint256 id = _generalMintCounter.current();
-
     require(quantity > 0, "Invalid amount");
 
-    _generalMintCounter.increment();
-    // 4.2
+    uint256 id = _generalMintCounter.current();
     uint256 price = getPrice(quantity) * quantity;
 
-    require(msg.value == price, "Invalid amount");
-    require(id <= maxMintable, "No more kittens are available");
+    require(msg.value >= price, "Invalid amount");
+    require(id < maxMintable, "No more kittens are available");
 
     // transfer amount to owner
     depositAddress.transfer(price);
 
     _safeMint(msg.sender, id);
+
+    _generalMintCounter.increment();
   }
 
   function ogClaim() public {
@@ -96,6 +109,16 @@ contract KittensHD is
 
       _safeMint(msg.sender, id);
     }
+  }
+
+  function _daoClaim() public onlyOwner {
+    uint256 id = _daoClaimCounter.current();
+
+    require(id < 666, "No more kittens are available for DAO claim");
+
+    _safeMint(msg.sender, id);
+
+    _daoClaimCounter.increment();
   }
 
   // The following functions are overrides required by Solidity.
@@ -124,7 +147,7 @@ contract KittensHD is
   function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC721, ERC721Enumerable, IERC165)
+    override(ERC721, ERC721Enumerable, IERC165, AccessControl)
     returns (bool)
   {
     return

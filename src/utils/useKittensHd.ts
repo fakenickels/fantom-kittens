@@ -2,6 +2,13 @@ import React from "react";
 import Web3 from "web3";
 import { useWallet } from "use-wallet";
 import KittensHD from "../../artifacts/contracts/KittensHD.sol/KittensHD.json";
+import { parseEther } from "@ethersproject/units";
+
+export const getCostPerKittenByQuantity = (quantity: number) => {
+  if (quantity >= 10) return parseEther("4.0");
+  if (quantity >= 3) return parseEther("4.1");
+  return parseEther("4.2");
+};
 
 export const useWeb3 = () => {
   const france: React.MutableRefObject<Web3 | undefined> = React.useRef();

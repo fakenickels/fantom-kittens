@@ -5,6 +5,8 @@ import Link from "next/link";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { getCostPerKittenByQuantity } from "../src/utils/useKittensHd";
+import { utils } from "ethers";
 
 function Header() {
   return (
@@ -76,12 +78,6 @@ function Input(props: any) {
   );
 }
 
-const getCostPerKittenByQuantity = (quantity: number) => {
-  if (quantity >= 10) return 4.0;
-  if (quantity >= 3) return 4.1;
-  return 4.2;
-};
-
 export default function KittensHD() {
   const [quantity, setQuantity] = React.useState(1);
 
@@ -102,7 +98,8 @@ export default function KittensHD() {
         />
         <div className="flex flex-col items-center mt-2">
           <h2 className="text-2xl text-center mb-12">
-            {getCostPerKittenByQuantity(quantity)} FTM per kitten
+            {utils.formatEther(getCostPerKittenByQuantity(quantity))} FTM per
+            kitten
           </h2>
         </div>
 
@@ -112,7 +109,10 @@ export default function KittensHD() {
           }}
         >
           Mint now {quantity} for{" "}
-          {getCostPerKittenByQuantity(quantity) * quantity} FTM
+          {utils.formatEther(
+            getCostPerKittenByQuantity(quantity).mul(quantity)
+          )}{" "}
+          FTM
         </Button>
       </div>
       <div className="flex flex-col items-center" style={{ height: "700px" }}>
