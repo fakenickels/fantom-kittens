@@ -235,7 +235,7 @@ export default function KittensHD() {
         </Button>
 
         <h2 className="text-2xl text-center mt-24">
-          Or if you are eligible (call will fail)
+          Or if you are eligible (call will fail if you are not)
         </h2>
         <Button
           onClick={() => {
