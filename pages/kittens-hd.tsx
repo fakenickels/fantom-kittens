@@ -35,7 +35,7 @@ function Header() {
   return (
     <>
       <Image src={require("../public/assets/bannerhd2.png")} alt="logo" />
-      <div className="flex flex-row p-5 mb-10 items-center">
+      <div className="flex flex-row p-5 items-center">
         {/* <Link href="/">
           <a>
             <Image
@@ -47,7 +47,7 @@ function Header() {
           </a>
         </Link> */}
 
-        <div className="grid grid-rows-5 md:grid-cols-5 w-full space-x-4 text-blue-600 divide-y-2 md:divide-y-0 md:divide-x-2 justify-center items-center text-center">
+        <div className="grid grid-rows-1 md:grid-cols-5 w-full space-x-4 text-blue-600 divide-y-2 md:divide-y-0 md:divide-x-2 justify-center items-center text-center">
           <a
             href="https://discord.gg/VB9nXy28Rw"
             target="_blank"
@@ -172,7 +172,7 @@ export default function KittensHD() {
       <Header />
 
       <div className="flex flex-col items-center">
-        <h1 className="text-3xl text-center mb-12">
+        <h1 className="text-3xl text-center mb-12 mt-12">
           {kittensHD.generalClaimedCount || "Loading"} / 10,000 Fantom Kittens HD were already minted.
         </h1>
       </div>
@@ -236,7 +236,7 @@ export default function KittensHD() {
           FTM
         </Button>
 
-        <h2 className="text-2xl text-center mt-24">
+        <h2 className="text-2xl text-center mt-12">
           Or if you are eligible (call will fail if you are not)
         </h2>
         <Button
@@ -271,9 +271,15 @@ export default function KittensHD() {
         >
           Claim free HD for Special Kittens
         </Button>
+        <Button
+          enabled={false}
+        >
+          Claim free HD for every 420 rKITTEN you had before minting
+        </Button>
+        <p>rKITTEN claiming will work later this week, currently not working, but your claims are reserved!</p>
       </div>
       <div
-        className="flex flex-col items-center mt-24"
+        className="flex flex-col items-center mt-12"
         style={{ height: "700px" }}
       >
         <h1 className="text-5xl text-center mb-12">Your kittens</h1>
