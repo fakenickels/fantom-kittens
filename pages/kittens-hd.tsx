@@ -119,10 +119,10 @@ export default function KittensHD() {
           <b>20% chance </b> of glasses (lenses colors derived from kitten colors)
         </span>
         <span className="text-l mb-1">
-          <b>50% chance </b> of a seccond color with different color masks
+          <b>50% chance </b> of a second color with different color masks
         </span>
         <span className="text-l mb-1">
-          <b>9 Personalities</b> each kitten comes with a Sociability and Courage factor which detemines a personality
+          <b>9 Personalities</b> each kitten comes with a Sociability and Courage factor which determines a personality
         </span>
         <span className="text-l mb-12">
           <b>4,698 unique expressions</b> and more than <b>666,666,666,666,666,666 possible color mask variants</b>
