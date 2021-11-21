@@ -28,6 +28,19 @@ export const useWeb3 = () => {
 export const useKittenHDMethods = () => {
   const [_france, contract] = useWeb3();
   const [totalSupply, setTotalSupply] = React.useState<undefined | number>();
+  const [rKittenClaimedCount, setRKittenClaimedCount] = React.useState<
+    undefined | number
+  >();
+  const [honoraryClaimedCount, setHonoraryClaimedCount] = React.useState<
+    undefined | number
+  >();
+  const [daoClaimedCount, setDaoClaimedCount] = React.useState<
+    undefined | number
+  >();
+  const [generalClaimedCount, setGeneralClaimedCount] = React.useState<
+    undefined | number
+  >();
+
   const [userTokens, setUserTokens] = React.useState<string[]>([]);
 
   const wallet = useWallet();
@@ -74,7 +87,39 @@ export const useKittenHDMethods = () => {
     setUserTokens(tokens);
   };
 
+  const getRKittenClaimCounter = () =>
+    contract.current?.methods
+      .getRKittenClaimCounter()
+      .call()
+      .then((supply: string) => setRKittenClaimedCount(Number(supply)));
+
+  const getHonoraryClaimCounter = () =>
+    contract.current?.methods
+      .getHonoraryClaimCounter()
+      .call()
+      .then((supply: string) => setHonoraryClaimedCount(Number(supply)));
+
+  const getDaoClaimCounter = () =>
+    contract.current?.methods
+      .getDaoClaimCounter()
+      .call()
+      .then((supply: string) => setDaoClaimedCount(Number(supply)));
+
+  const getGeneralMintCounter = () =>
+    contract.current?.methods
+      .getGeneralMintCounter()
+      .call()
+      .then((supply: string) => setGeneralClaimedCount(Number(supply)));
+
   return {
+    getRKittenClaimCounter,
+    getHonoraryClaimCounter,
+    getDaoClaimCounter,
+    getGeneralMintCounter,
+    rKittenClaimedCount,
+    daoClaimedCount,
+    honoraryClaimedCount,
+    generalClaimedCount,
     claimKittens,
     ogClaim,
     honoraryClaim,

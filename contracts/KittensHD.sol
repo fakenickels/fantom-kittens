@@ -51,6 +51,26 @@ contract KittensHD is
     _setupRole(DAO_MEMBER, 0xCA88C5D43Bb11eDBcBC1436fEFA9d578d8D64489);
   }
 
+  // get rkitten claim counter current value
+  function getRKittenClaimCounter() public view returns (uint256) {
+    return _rkittenClaimCounter.current();
+  }
+
+  // get honorary claim counter current value
+  function getHonoraryClaimCounter() public view returns (uint256) {
+    return _honoraryClaimCounter.current();
+  }
+
+  // get dao claim counter current value
+  function getDaoClaimCounter() public view returns (uint256) {
+    return _daoClaimCounter.current();
+  }
+
+  // get general mint counter current value
+  function getGeneralMintCounter() public view returns (uint256) {
+    return _generalMintCounter.current();
+  }
+
   function grantDAOMemberRole(address addr)
     public
     onlyRole(DEFAULT_ADMIN_ROLE)
