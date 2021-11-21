@@ -157,7 +157,7 @@ export default function KittensHD() {
               </Button>
             </div>
           ) : (
-            <Button className="mt-4" onClick={() => wallet.connect("injected")}>Connect with Metamask</Button>
+            <Button style={{ marginTop: 15 }} onClick={() => wallet.connect("injected")}>Connect with Metamask</Button>
           )}
         </div>
       </div>
@@ -272,7 +272,8 @@ export default function KittensHD() {
           Claim free HD for Special Kittens
         </Button>
         <Button
-          enabled={false}
+          disabled
+          style={{ opacity: 0.75 }}
         >
           Claim free HD for every 420 rKITTEN you had before minting
         </Button>
