@@ -18,23 +18,24 @@ export const useWeb3 = () => {
     france.current = new Web3(window.ethereum);
     contract.current = new france.current.eth.Contract(
       KittensHD.abi as any,
-      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+      process.env.NEXT_PUBLIC_KITTENS_HD_CONTRACT_ADDRESS
     );
   });
 
   return [france, contract];
 };
 
-export const useContractMethods = () => {
+export const useKittenHDMethods = () => {
   const [_france, contract] = useWeb3();
   const [totalSupply, setTotalSupply] = React.useState<undefined | number>();
+  const [userTokens, setUserTokens] = React.useState<string[]>([]);
 
   const wallet = useWallet();
 
-  const claim = async (quantity: string, price: string) => {
+  const claimKittens = async (quantity: number | string) => {
     return contract.current.methods.claim(quantity).send({
       from: wallet?.account as string,
-      value: price,
+      value: getCostPerKittenByQuantity(Number(quantity)).mul(quantity),
     });
   };
 
@@ -50,5 +51,36 @@ export const useContractMethods = () => {
     });
   };
 
-  return { claim, ogClaim, honoraryClaim };
+  const getTotalSupply = () =>
+    contract.current?.methods
+      .totalSupply()
+      .call()
+      .then((supply: string) => setTotalSupply(Number(supply)));
+
+  // get list of user owned tokens using tokenOfOwnerByIndex
+  const getUserTokens = async () => {
+    const tokens = [];
+    let index = 0;
+    const owner = wallet?.account as string;
+    const balance = await contract.current.methods.balanceOf(owner).call();
+    for (let i = 0; i < balance; i++) {
+      const token = await contract.current.methods
+        .tokenOfOwnerByIndex(owner, index)
+        .call();
+      tokens.push(token);
+      index++;
+    }
+
+    setUserTokens(tokens);
+  };
+
+  return {
+    claimKittens,
+    ogClaim,
+    honoraryClaim,
+    getTotalSupply,
+    totalSupply,
+    userTokens,
+    getUserTokens,
+  };
 };
