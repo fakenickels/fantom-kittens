@@ -44,3 +44,5 @@ lib/
 .merlin
 
 artifacts/
+
+package-lock.json
