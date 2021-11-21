@@ -11,9 +11,9 @@ import { utils } from "ethers";
 function Header() {
   return (
     <>
-      <Image src={require("../public/assets/hd-banner.jpg")} alt="logo" />
+      <Image src={require("../public/assets/bannerhd2.png")} alt="logo"/>
       <div className="flex flex-row p-5 mb-10 items-center">
-        <Link href="/">
+        {/* <Link href="/">
           <a>
             <Image
               src={require("../public/assets/logo.png")}
@@ -22,9 +22,9 @@ function Header() {
               alt="logo"
             />
           </a>
-        </Link>
+        </Link> */}
 
-        <div className="ml-auto flex flex-col md:flex-row text-black space-x-4">
+        <div className="ml-auto flex flex-col md:flex-row text-black space-x-4 text-blue-600" style={{ justifyContent: "center", width: "100%" }} >
           <a
             href="https://discord.gg/VB9nXy28Rw"
             target="_blank"
@@ -32,11 +32,21 @@ function Header() {
           >
             Community
           </a>
-          <a href="/assets/manifest.txt" target="_blank" rel="noreferrer">
-            PaintSwap
+          <span>/</span>
+          <a href="https://fakeworms.studio/" target="_blank" rel="noreferrer">
+            Homepage
           </a>
-          <a href="/assets/about_us.txt" target="_blank" rel="noreferrer">
-            About us
+          <span>/</span>
+          <a href="https://gist.github.com/MarcoWorms/78e71064e3a5c366b29b8a9ce01e1f19" target="_blank" rel="noreferrer">
+            Buy FTM with Binance (International)
+          </a>
+          <span>/</span>
+          <a href="https://swap.vanna.app/" target="_blank" rel="noreferrer">
+            Buy FTM with PIX (Brazil only)
+          </a>
+          <span>/</span>
+          <a href="https://gist.github.com/Rastrian/1a43477031d1307ef86815a60e1e0eba" target="_blank" rel="noreferrer">
+            Buy FTM with Binance (Brazil)
           </a>
         </div>
       </div>
@@ -84,12 +94,36 @@ export default function KittensHD() {
   return (
     <div>
       <Head>
-        <title>Kittens HD</title>
+        <title>Fantom Kittens HD Mint</title>
       </Head>
       <Header />
 
+      <div className="flex flex-col items-center mt-6">
+          <h2 className="text-2xl text-center mb-12">
+            6666/10000 Fantom Kittens HD were already minted.
+          </h2>
+        </div>
+
       <div className="flex flex-col items-center" style={{ height: "700px" }}>
-        <h1 className="text-5xl text-center mb-12">Kittens HD</h1>
+        
+        <span className="text-l text-center mb-1">
+          <b>Mint 1 ~ 2:</b> 4.2 FTM each
+        </span>
+        <span className="text-l text-center mb-1">
+          <b>Mint 3 ~ 9:</b> 4.1 FTM each
+        </span>
+        <span className="text-l text-center mb-12">
+          <b>Mint 10+:</b> 4.0 FTM each
+        </span>
+        <span className="text-l mb-1">
+          <b>20% chance </b> of glasses (lenses colors derived from kitten colors)
+        </span>
+        <span className="text-l mb-1">
+          <b>50% chance </b> of a seccond color with different color masks
+        </span>
+        <span className="text-l mb-12">
+          <b>9 Personalities</b> each kitten comes with a Sociability and Courage factor which detemines a personality
+        </span>
         <Input
           placeholder="Amount of kittens"
           onChange={(e: any) => {
@@ -114,10 +148,12 @@ export default function KittensHD() {
           )}{" "}
           FTM
         </Button>
+
+
       </div>
-      <div className="flex flex-col items-center" style={{ height: "700px" }}>
-        <h1 className="text-5xl text-center mb-12">Kittens HD</h1>
-      </div>
+      {/* <div className="flex flex-col items-center" style={{ height: "700px" }}>
+        <h1 className="text-5xl text-center mb-12">Fantom Kittens HD</h1>
+      </div> */}
     </div>
   );
 }
