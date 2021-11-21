@@ -154,8 +154,8 @@ contract KittensHD is
     }
   }
 
-  function daoRKITTENClaim() public onlyRole(DAO_MEMBER) {
-    for (uint256 i = 0; i < 333; i++) {
+  function daoRKITTENClaim(uint256 amount) public onlyRole(DAO_MEMBER) {
+    for (uint256 i = 0; i < amount; i++) {
       uint256 id = _rkittenClaimCounter.current();
 
       _safeMint(msg.sender, id);
@@ -192,7 +192,7 @@ contract KittensHD is
   function _daoClaim() public onlyRole(DAO_MEMBER) {
     uint256 id = _daoClaimCounter.current();
 
-    require(id <= 666, "No more kittens are available for DAO claim");
+    require(id <= 1020, "No more kittens are available for DAO claim");
 
     _safeMint(msg.sender, id);
 
