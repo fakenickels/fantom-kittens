@@ -283,6 +283,7 @@ export default function KittensHD() {
                 <a
                   href={`https://paintswap.finance/marketplace/assets/${process.env.NEXT_PUBLIC_KITTENS_HD_CONTRACT_ADDRESS}/${token}`}
                   target="_blank"
+                  rel="noreferrer"
                   className="cursor-pointer"
                 >
                   <IPFSImage src={`/api/kitten-hd/${token}.json`} />
