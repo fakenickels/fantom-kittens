@@ -126,6 +126,7 @@ export default function KittensHD() {
         console.log("Polling");
         kittensHD.getTotalSupply();
         kittensHD.getUserTokens();
+        kittensHD.getGeneralMintCounter();
       }, 1000);
       return () => {
         clearInterval(timerId);
@@ -172,7 +173,7 @@ export default function KittensHD() {
 
       <div className="flex flex-col items-center">
         <h1 className="text-3xl text-center mb-12">
-          {kittensHD.totalSupply} / 10000 Fantom Kittens HD were already minted.
+          {kittensHD.generalClaimedCount || "Loading"} / 10,000 Fantom Kittens HD were already minted.
         </h1>
       </div>
 
