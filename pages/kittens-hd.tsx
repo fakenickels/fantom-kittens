@@ -296,7 +296,7 @@ export default function KittensHD() {
         style={{ height: "700px" }}
       >
         <h1 className="text-5xl text-center mb-12">Your kittens</h1>
-        <div className="grid grid-cols-4 auto-rows-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-auto">
           {/* Display user tokens NFTs in a grid */}
           {kittensHD.userTokens.map((token) => {
             return (
@@ -336,5 +336,5 @@ function IPFSImage({ src }: { src: string }) {
       });
   }, [src]);
   if (!image) return <div className="h-64 w-64"></div>;
-  return <img src={image} className="h-64 w-64" />;
+  return <img src={image} className="h-64 w-64 object-cover" />;
 }
