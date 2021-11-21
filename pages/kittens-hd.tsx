@@ -123,9 +123,10 @@ export default function KittensHD() {
   React.useEffect(() => {
     if (wallet?.account) {
       const timerId = setInterval(() => {
+        console.log("Polling");
         kittensHD.getTotalSupply();
         kittensHD.getUserTokens();
-      }, 3000);
+      }, 1000);
       return () => {
         clearInterval(timerId);
       };
