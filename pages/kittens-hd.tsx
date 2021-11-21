@@ -279,7 +279,10 @@ export default function KittensHD() {
           {/* Display user tokens NFTs in a grid */}
           {kittensHD.userTokens.map((token) => {
             return (
-              <div key={"img" + token} className="flex flex-col items-center">
+              <div
+                key={"img" + token}
+                className="flex flex-col items-center px-2"
+              >
                 <a
                   href={`https://paintswap.finance/marketplace/assets/${process.env.NEXT_PUBLIC_KITTENS_HD_CONTRACT_ADDRESS}/${token}`}
                   target="_blank"
