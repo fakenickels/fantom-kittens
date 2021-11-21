@@ -265,22 +265,10 @@ export default function KittensHD() {
         >
           Claim free HD for OG Kittens
         </Button>
-        <Button
-          onClick={() => {
-            toast.info(`Claiming for free...`);
-            kittensHD
-              .honoraryClaim()
-              .then((txn) => {
-                toast.success(`Minted for honorary kittens. Check below.`);
-              })
-              .catch((e) => {
-                toast.dismiss();
-                toast.error(`Error minting ${quantity} kittens: ${e.message}`);
-              });
-          }}
-        >
-          Claim free HD for Special Kittens
-        </Button>
+        <div className="w-8/12 flex items-center flex-col">
+          <Button disabled>Claim for special kittens</Button>
+          <p>Claim for special kittens will be resumed soon</p>
+        </div>
         <div className="w-8/12 flex items-center flex-col">
           <Button disabled>
             Claim free HD for every 420 rKITTEN you had before minting
