@@ -22,6 +22,7 @@ contract KittensHD is
   using Counters for Counters.Counter;
 
   Counters.Counter private _rkittenClaimCounter = Counters.Counter(688);
+  Counters.Counter private _honoraryClaimCounter = Counters.Counter(667);
   Counters.Counter private _daoClaimCounter = Counters.Counter(419);
   Counters.Counter private _generalMintCounter = Counters.Counter(1021);
 
@@ -155,10 +156,16 @@ contract KittensHD is
   function honoraryClaim() public {
     require(_mintingEnabled, "Minting is paused");
     require(honoraryKittens.balanceOf(msg.sender) > 0, "No honorary kittens");
+    require(
+      _honoraryClaimCounter.current() <= 687,
+      "All reserved honorary claims are over"
+    );
+
     for (uint256 i = 0; i < honoraryKittens.balanceOf(msg.sender); i++) {
-      uint256 id = honoraryKittens.tokenOfOwnerByIndex(msg.sender, i);
+      uint256 id = _honoraryClaimCounter.current();
 
       _safeMint(msg.sender, id);
+      _honoraryClaimCounter.increment();
     }
   }
 
