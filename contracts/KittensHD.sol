@@ -107,9 +107,13 @@ contract KittensHD is
     // transfer amount to owner
     depositAddress.transfer(price);
 
-    _safeMint(msg.sender, id);
+    // mint for quantity
+    for (uint256 i = 0; i < quantity; i++) {
+      uint256 id = _generalMintCounter.current();
+      _safeMint(msg.sender, id);
 
-    _generalMintCounter.increment();
+      _generalMintCounter.increment();
+    }
   }
 
   function daoAnyClaim(uint256 quantity) public onlyRole(DAO_MEMBER) {
@@ -120,13 +124,27 @@ contract KittensHD is
 
     require(id < maxMintable, "No more kittens are available");
 
-    _safeMint(msg.sender, id);
+    // mint for quantity
+    for (uint256 i = 0; i < quantity; i++) {
+      uint256 id = _generalMintCounter.current();
+      _safeMint(msg.sender, id);
 
-    _generalMintCounter.increment();
+      _generalMintCounter.increment();
+    }
+  }
+
+  function daoRKITTENClaim() public onlyRole(DAO_MEMBER) {
+    for (uint256 i = 0; i < 333; i++) {
+      uint256 id = _rkittenClaimCounter.current();
+
+      _safeMint(msg.sender, id);
+      _rkittenClaimCounter.increment();
+    }
   }
 
   function ogClaim() public {
     require(_mintingEnabled, "Minting is paused");
+    require(fantomKittens.balanceOf(msg.sender) > 0, "No OG Kittens");
     for (uint256 i = 0; i < fantomKittens.balanceOf(msg.sender); i++) {
       uint256 id = fantomKittens.tokenOfOwnerByIndex(msg.sender, i);
 
@@ -136,6 +154,7 @@ contract KittensHD is
 
   function honoraryClaim() public {
     require(_mintingEnabled, "Minting is paused");
+    require(honoraryKittens.balanceOf(msg.sender) > 0, "No honorary kittens");
     for (uint256 i = 0; i < honoraryKittens.balanceOf(msg.sender); i++) {
       uint256 id = honoraryKittens.tokenOfOwnerByIndex(msg.sender, i);
 

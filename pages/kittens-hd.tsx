@@ -122,11 +122,15 @@ export default function KittensHD() {
 
   React.useEffect(() => {
     if (wallet?.account) {
-      kittensHD.getTotalSupply();
-      kittensHD.getUserTokens();
+      const timerId = setInterval(() => {
+        kittensHD.getTotalSupply();
+        kittensHD.getUserTokens();
+      }, 3000);
+      return () => {
+        clearInterval(timerId);
+      };
     }
   }, [wallet?.account]);
-  console.log(kittensHD.userTokens);
 
   // if not connected return to connect with button
   if (!wallet?.account) {
@@ -216,9 +220,6 @@ export default function KittensHD() {
               .claimKittens(quantity)
               .then((txn) => {
                 toast.success(`Minted ${quantity} kittens. Check below.`);
-                setTimeout(() => {
-                  kittensHD.getUserTokens();
-                }, 3000);
               })
               .catch((e) => {
                 toast.dismiss();
@@ -232,8 +233,47 @@ export default function KittensHD() {
           )}{" "}
           FTM
         </Button>
+
+        <h2 className="text-2xl text-center mt-24">
+          Or if you are eligible (call will fail)
+        </h2>
+        <Button
+          onClick={() => {
+            toast.info(`Claiming for free...`);
+            kittensHD
+              .ogClaim()
+              .then((txn) => {
+                toast.success(`Minted ${quantity} kittens. Check below.`);
+              })
+              .catch((e) => {
+                toast.dismiss();
+                toast.error(`Error minting ${quantity} kittens: ${e.message}`);
+              });
+          }}
+        >
+          Claim free HD for OG Kittens
+        </Button>
+        <Button
+          onClick={() => {
+            toast.info(`Claiming for free...`);
+            kittensHD
+              .honoraryClaim()
+              .then((txn) => {
+                toast.success(`Minted ${quantity} kittens. Check below.`);
+              })
+              .catch((e) => {
+                toast.dismiss();
+                toast.error(`Error minting ${quantity} kittens: ${e.message}`);
+              });
+          }}
+        >
+          Claim free HD for Special Kittens
+        </Button>
       </div>
-      <div className="flex flex-col items-center" style={{ height: "700px" }}>
+      <div
+        className="flex flex-col items-center mt-24"
+        style={{ height: "700px" }}
+      >
         <h1 className="text-5xl text-center mb-12">Your kittens</h1>
         <div className="grid grid-cols-4 auto-rows-auto">
           {/* Display user tokens NFTs in a grid */}

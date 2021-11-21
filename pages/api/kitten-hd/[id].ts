@@ -28,7 +28,7 @@ export default async function handler(
   const id = (req.query.id as string).replace(/\D+/g, "");
 
   try {
-    console.log(await contract.tokenByIndex(id));
+    console.log(await contract.ownerOf(id));
     const metadata = await fetch(`${process.env.METADATA_URL}/${id}.json`).then(
       (res) => res.json()
     );
