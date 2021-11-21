@@ -157,7 +157,7 @@ export default function KittensHD() {
               </Button>
             </div>
           ) : (
-            <Button onClick={() => wallet.connect("injected")}>Connect</Button>
+            <Button className="mt-4" onClick={() => wallet.connect("injected")}>Connect with Metamask</Button>
           )}
         </div>
       </div>
