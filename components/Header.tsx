@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div className="flex flex-row p-5 mb-10 items-center">
-      <Link href="/">
+      <Link href="https://fakeworms.studio">
         <a>
           <Image
             src={require("../public/assets/logo.png")}

@@ -42,3 +42,7 @@ cache
 .bsb.lock
 lib/
 .merlin
+
+artifacts/
+
+package-lock.json

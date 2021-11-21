@@ -2,6 +2,8 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 
 import { UseWalletProvider } from "use-wallet";
+import { ToastContainer } from "react-toastify";
+
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -29,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <Component {...pageProps} />
       </UseWalletProvider>
+      <ToastContainer />
     </>
   );
 }
