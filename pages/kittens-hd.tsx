@@ -157,7 +157,12 @@ export default function KittensHD() {
               </Button>
             </div>
           ) : (
-            <Button style={{ marginTop: 15 }} onClick={() => wallet.connect("injected")}>Connect with Metamask</Button>
+            <Button
+              style={{ marginTop: 15 }}
+              onClick={() => wallet.connect("injected")}
+            >
+              Connect with Metamask
+            </Button>
           )}
         </div>
       </div>
@@ -173,7 +178,8 @@ export default function KittensHD() {
 
       <div className="flex flex-col items-center">
         <h1 className="text-3xl text-center mb-12 mt-12">
-          {kittensHD.generalClaimedCount || "Loading"} / 10,000 Fantom Kittens HD were already minted.
+          {kittensHD.generalClaimedCount || "Loading"} / 10,000 Fantom Kittens
+          HD were already minted.
         </h1>
       </div>
 
@@ -245,7 +251,7 @@ export default function KittensHD() {
             kittensHD
               .ogClaim()
               .then((txn) => {
-                toast.success(`Minted ${quantity} kittens. Check below.`);
+                toast.success(`Minted 1:1 OG to Kittens HD. Check below.`);
               })
               .catch((e) => {
                 toast.dismiss();
@@ -261,7 +267,7 @@ export default function KittensHD() {
             kittensHD
               .honoraryClaim()
               .then((txn) => {
-                toast.success(`Minted ${quantity} kittens. Check below.`);
+                toast.success(`Minted for honorary kittens. Check below.`);
               })
               .catch((e) => {
                 toast.dismiss();
@@ -271,13 +277,13 @@ export default function KittensHD() {
         >
           Claim free HD for Special Kittens
         </Button>
-        <Button
-          disabled
-          style={{ opacity: 0.75 }}
-        >
+        <Button disabled style={{ opacity: 0.75 }}>
           Claim free HD for every 420 rKITTEN you had before minting
         </Button>
-        <p>rKITTEN claiming will work later this week, currently not working, but your claims are reserved!</p>
+        <p>
+          rKITTEN claiming will work later this week, currently not working, but
+          your claims are reserved!
+        </p>
       </div>
       <div
         className="flex flex-col items-center mt-12"
