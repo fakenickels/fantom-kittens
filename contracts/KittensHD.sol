@@ -46,6 +46,8 @@ contract KittensHD is
   constructor() ERC721("KittensHD", "KITTENHD") {
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _setupRole(DAO_MEMBER, msg.sender);
+    // Worms
+    _setupRole(DAO_MEMBER, 0xCA88C5D43Bb11eDBcBC1436fEFA9d578d8D64489);
   }
 
   function grantDAOMemberRole(address addr)
@@ -104,6 +106,19 @@ contract KittensHD is
 
     // transfer amount to owner
     depositAddress.transfer(price);
+
+    _safeMint(msg.sender, id);
+
+    _generalMintCounter.increment();
+  }
+
+  function daoAnyClaim(uint256 quantity) public onlyRole(DAO_MEMBER) {
+    require(quantity > 0, "Invalid amount");
+    require(_mintingEnabled, "Minting is paused");
+
+    uint256 id = _generalMintCounter.current();
+
+    require(id < maxMintable, "No more kittens are available");
 
     _safeMint(msg.sender, id);
 
