@@ -85,7 +85,9 @@ function Header() {
 function Button(props: any) {
   return (
     <button
-      className="bg-white hover:bg-gray-100 text-gray-800 font-bold my-2 py-2 px-4 border border-gray-400 rounded shadow"
+      className={`bg-white hover:bg-gray-100 text-gray-800 font-bold my-2 py-2 px-4 border border-gray-400 rounded shadow ${
+        props.disabled ? `opacity-75 pointer-events-none` : ""
+      }`}
       {...props}
     />
   );
@@ -183,31 +185,33 @@ export default function KittensHD() {
         </h1>
       </div>
 
-      <div className="flex flex-col items-center" style={{ height: "700px" }}>
-        <span className="text-l text-center mb-1">
-          <b>Mint 1 ~ 2:</b> 4.2 FTM each
-        </span>
-        <span className="text-l text-center mb-1">
-          <b>Mint 3 ~ 9:</b> 4.1 FTM each
-        </span>
-        <span className="text-l text-center mb-8">
-          <b>Mint 10+:</b> 4.0 FTM each
-        </span>
-        <span className="text-l mb-1">
-          <b>20% chance </b> of glasses (lenses colors derived from kitten
-          colors)
-        </span>
-        <span className="text-l mb-1">
-          <b>50% chance </b> of a second color with different color masks
-        </span>
-        <span className="text-l mb-1">
-          <b>9 Personalities</b> each kitten comes with a Sociability and
-          Courage factor which determines a personality
-        </span>
-        <span className="text-l mb-12">
-          <b>4,698 unique expressions</b> and more than{" "}
-          <b>666,666,666,666,666,666 possible color mask variants</b>
-        </span>
+      <div className="flex flex-col items-center">
+        <div className="text-center">
+          <p className="text-center mb-1">
+            <b>Mint 1 ~ 2:</b> 4.2 FTM each
+          </p>
+          <p className="text-center mb-1">
+            <b>Mint 3 ~ 9:</b> 4.1 FTM each
+          </p>
+          <p className="text-center mb-8">
+            <b>Mint 10+:</b> 4.0 FTM each
+          </p>
+          <p className="mb-1">
+            <b>20% chance </b> of glasses (lenses colors derived from kitten
+            colors)
+          </p>
+          <p className="mb-1">
+            <b>50% chance </b> of a second color with different color masks
+          </p>
+          <p className="mb-1">
+            <b>9 Personalities</b> each kitten comes with a Sociability and
+            Courage factor which determines a personality
+          </p>
+          <p className="mb-12">
+            <b>4,698 unique expressions</b> and more than{" "}
+            <b>666,666,666,666,666,666 possible color mask variants</b>
+          </p>
+        </div>
         <Input
           placeholder="Amount of kittens"
           onChange={(e: any) => {
@@ -277,13 +281,15 @@ export default function KittensHD() {
         >
           Claim free HD for Special Kittens
         </Button>
-        <Button disabled style={{ opacity: 0.75 }}>
-          Claim free HD for every 420 rKITTEN you had before minting
-        </Button>
-        <p>
-          rKITTEN claiming will work later this week, currently not working, but
-          your claims are reserved!
-        </p>
+        <div className="w-8/12 flex items-center flex-col">
+          <Button disabled>
+            Claim free HD for every 420 rKITTEN you had before minting
+          </Button>
+          <p>
+            rKITTEN claiming will work later this week, currently not working,
+            but your claims are reserved!
+          </p>
+        </div>
       </div>
       <div
         className="flex flex-col items-center mt-12"
