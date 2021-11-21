@@ -98,10 +98,10 @@ export default function KittensHD() {
       </Head>
       <Header />
 
-      <div className="flex flex-col items-center mt-6">
-          <h2 className="text-2xl text-center mb-12">
-            6666/10000 Fantom Kittens HD were already minted.
-          </h2>
+      <div className="flex flex-col items-center">
+          <h1 className="text-3xl text-center mb-12">
+            6666 / 10000 Fantom Kittens HD were already minted.
+          </h1>
         </div>
 
       <div className="flex flex-col items-center" style={{ height: "700px" }}>
@@ -112,7 +112,7 @@ export default function KittensHD() {
         <span className="text-l text-center mb-1">
           <b>Mint 3 ~ 9:</b> 4.1 FTM each
         </span>
-        <span className="text-l text-center mb-12">
+        <span className="text-l text-center mb-8">
           <b>Mint 10+:</b> 4.0 FTM each
         </span>
         <span className="text-l mb-1">
@@ -121,8 +121,11 @@ export default function KittensHD() {
         <span className="text-l mb-1">
           <b>50% chance </b> of a seccond color with different color masks
         </span>
-        <span className="text-l mb-12">
+        <span className="text-l mb-1">
           <b>9 Personalities</b> each kitten comes with a Sociability and Courage factor which detemines a personality
+        </span>
+        <span className="text-l mb-12">
+          <b>4,698 unique expressions</b> and more than <b>666,666,666,666,666,666 possible color mask variants</b>
         </span>
         <Input
           placeholder="Amount of kittens"
@@ -131,7 +134,7 @@ export default function KittensHD() {
           }}
         />
         <div className="flex flex-col items-center mt-2">
-          <h2 className="text-2xl text-center mb-12">
+          <h2 className="text-2xl text-center mb-2">
             {utils.formatEther(getCostPerKittenByQuantity(quantity))} FTM per
             kitten
           </h2>
