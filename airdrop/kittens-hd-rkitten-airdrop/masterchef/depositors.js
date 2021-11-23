@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const MasterKitten = require("../../artifacts/contracts/MasterKitten.sol/MasterKitten.json");
+const MasterKitten = require("../../../artifacts/contracts/MasterKitten.sol/MasterKitten.json");
 const fs = require("fs");
 const path = require("path");
 
@@ -29,6 +29,7 @@ contract
         if (event.args.amount.toString() === "0") {
           return acc;
         }
+
         return {
           ...acc,
           [event.args.user]: event.args.amount.toString(),
