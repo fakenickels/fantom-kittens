@@ -22,15 +22,18 @@ contract
     console.log("Found " + events.length + " events");
     // transform deposits to json removing duplicate entries
 
-    const usersAndAmount = events.reduce((acc, event) => {
-      if (event.args.amount.toString() === "0") {
-        return acc;
-      }
-      return {
-        ...acc,
-        [event.args.user]: event.args.amount.toString(),
-      };
-    }, {});
+    const usersAndAmount = events
+      // filter out all events that happened after Kittens HD deployment
+      .filter((event) => event.blockNumber < 22716527)
+      .reduce((acc, event) => {
+        if (event.args.amount.toString() === "0") {
+          return acc;
+        }
+        return {
+          ...acc,
+          [event.args.user]: event.args.amount.toString(),
+        };
+      }, {});
 
     console.log(
       "Found " + Object.keys(usersAndAmount).length + " unique wallet deposits"
