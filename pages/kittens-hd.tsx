@@ -217,7 +217,6 @@ export default function KittensHD() {
         <div>
           <Input
             placeholder="Amount of kittens"
-            max={9999 - (kittensHD.totalSupply || 0)}
             value={quantity}
             onChange={(e: any) => {
               setQuantity(Math.max(1, e.target.value));
