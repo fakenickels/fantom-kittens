@@ -111,7 +111,7 @@ function Input(props: any) {
     <input
       type="number"
       min="1"
-      className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-l-lg py-2 px-4 block appearance-none leading-normal"
+      className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal"
       {...props}
     />
   );
@@ -121,6 +121,8 @@ export default function KittensHD() {
   const [quantity, setQuantity] = React.useState(1);
   const kittensHD = useKittenHDMethods();
   const wallet = useWallet();
+
+  const leftKittens = 10_000 - (kittensHD.generalClaimedCount || 0);
 
   React.useEffect(() => {
     if (wallet?.account) {
@@ -212,13 +214,17 @@ export default function KittensHD() {
             <b>666,666,666,666,666,666 possible color mask variants</b>
           </p>
         </div>
-        <Input
-          placeholder="Amount of kittens"
-          onChange={(e: any) => {
-            setQuantity(Math.max(1, e.target.value));
-          }}
-        />
-        <div className="flex flex-col items-center mt-2">
+        <div>
+          <Input
+            placeholder="Amount of kittens"
+            max={9999 - (kittensHD.totalSupply || 0)}
+            value={quantity}
+            onChange={(e: any) => {
+              setQuantity(Math.max(1, e.target.value));
+            }}
+          />
+        </div>
+        <div className="flex flex-col items-center mt-6">
           <h2 className="text-2xl text-center mb-2">
             {utils.formatEther(getCostPerKittenByQuantity(quantity))} FTM per
             kitten
@@ -227,6 +233,16 @@ export default function KittensHD() {
 
         <Button
           onClick={() => {
+            if (
+              Number(quantity) + (kittensHD.generalClaimedCount || 0) >
+              10_000
+            ) {
+              toast.error(
+                `Invalid amount, try minting the left ${leftKittens}.`
+              );
+              setQuantity(leftKittens);
+              return;
+            }
             toast.info(`Minting...`);
             kittensHD
               .claimKittens(quantity)
