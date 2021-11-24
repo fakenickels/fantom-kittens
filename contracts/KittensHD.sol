@@ -131,6 +131,7 @@ contract KittensHD is
     // mint for quantity
     for (uint256 i = 0; i < quantity; i++) {
       uint256 id = _generalMintCounter.current();
+      require(id < maxMintable, "No more kittens are available");
       _safeMint(msg.sender, id);
 
       _generalMintCounter.increment();
