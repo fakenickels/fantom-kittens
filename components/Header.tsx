@@ -24,6 +24,9 @@ export default function Header() {
         >
           Community
         </a>
+        <a href="https://spookyswap.finance/swap?outputCurrency=0x07e796368ac8480f74b57eba6391733ede0dcad7" target="_blank"  rel="noreferrer">
+          Buy $rKITTEN
+        </a>
         <a href="/assets/manifest.txt" target="_blank" rel="noreferrer">
           The Kitten Society
         </a>
