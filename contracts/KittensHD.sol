@@ -79,7 +79,7 @@ contract KittensHD is
   }
 
   function _baseURI() internal pure override returns (string memory) {
-    return "https://kittens.fakeworms.studio/api/kitten-hd/";
+    return baseURI;
   }
 
   // method to pause the minting of new tokens
