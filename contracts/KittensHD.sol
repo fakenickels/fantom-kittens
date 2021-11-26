@@ -249,7 +249,7 @@ contract KittensHD is
     override(IERC2981)
     returns (address receiver, uint256 royaltyAmount)
   {
-    uint256 _royalties = (_salePrice * (royaltiesPercentage / 100));
+    uint256 _royalties = ((_salePrice * royaltiesPercentage) / 100);
     return (depositAddress, _royalties);
   }
 }
