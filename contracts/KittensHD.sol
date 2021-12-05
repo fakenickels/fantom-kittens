@@ -78,7 +78,7 @@ contract KittensHD is
     _setupRole(DAO_MEMBER, addr);
   }
 
-  function _baseURI() internal pure override returns (string memory) {
+  function _baseURI() internal view override returns (string memory) {
     return baseURI;
   }
 
