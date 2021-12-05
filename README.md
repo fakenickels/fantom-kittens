@@ -1,8 +1,8 @@
 # FantomKittens
 
-**Claiming is over**
+**Kittens HD claiming is live**
 
-https://kittens.fakeworms.studio
+https://kittens.fakeworms.studio/kittens-hd
 
 **Rewards**
 https://kittens.fakeworms.studio/rewards
