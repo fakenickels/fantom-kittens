@@ -5,14 +5,16 @@ import "./HonoraryKittens.sol";
 import "./KittensHD.sol";
 
 contract SpecialKittensDistributor is Ownable {
-  HonoraryKittens honoraryKittens =
-    HonoraryKittens(0xE65469083B4f50d1EcD089584c671Bb1d23F9AC7);
+  HonoraryKittens honoraryKittens;
 
-  KittensHD kittensHD = KittensHD(0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9);
+  KittensHD kittensHD;
 
   mapping(address => bool) public claims;
 
-  constructor() {}
+  constructor(address kittensHDAddress, address honoraryKittensAddress) {
+    kittensHD = KittensHD(kittensHDAddress);
+    honoraryKittens = HonoraryKittens(honoraryKittensAddress);
+  }
 
   function claim() public {
     require(honoraryKittens.balanceOf(msg.sender) > 0);
