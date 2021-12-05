@@ -1,60 +1,152 @@
-
-const chai = require("chai")
-const expect = chai.expect
+const chai = require("chai");
+const expect = chai.expect;
 const { solidity } = require("ethereum-waffle");
+const merkleRoot = require("../airdrop/kittens-hd-rkitten-airdrop/merkle-root.json");
 
-chai.use(solidity)
+chai.use(solidity);
 
-describe("FantomKittens contract", function () {
-  let owner;
-  let depositAddress;
+describe("Merkle distributor", function () {
+  it("should deploy and be able to claim", async function () {
+    this.timeout(50000000000000000000000000000000000000);
+    const deployer = "0x03D7D343bB9008d182FDB0B9100903f0952bf358";
+    await hre.network.provider.request({
+      method: "hardhat_impersonateAccount",
+      params: [deployer],
+    });
 
-  this.beforeAll(async () => {
-    [owner, depositAddress, someFucker] = await ethers.getSigners();
+    const signer = await ethers.getSigner(deployer);
 
-  })
+    const Contract = await ethers.getContractFactory(
+      "KittenHDRKittenMerkleDistributor"
+    );
 
-  it("should mint a token properly and transfer amount to deposit address", async function () {
-    const depositAddressInitialBalance = await depositAddress.getBalance()
-    const Contract = await ethers.getContractFactory("FantomKittens");
+    const kittensHDAddress = "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9";
 
-    const contract = await Contract.deploy();
+    console.log("Deploying contract...");
+    const contract = await Contract.deploy(
+      kittensHDAddress,
+      merkleRoot.merkleRoot
+    );
 
-    await contract.setDepositAddress(await depositAddress.getAddress())
+    console.log("Initializing kittens hd");
+    const kittensHDContract = await ethers.getContractAt(
+      "KittensHD",
+      kittensHDAddress,
+      signer
+    );
 
-    const receipt = await contract.claim({
-      value: ethers.utils.parseEther("4.2"),
-    }).catch(e => e.message)
+    // setup merkle distributor
+    console.log("Granting role...");
+    await kittensHDContract.grantDAOMemberRole(contract.address);
+    // uncomment here to test surplus minting when reserved rkitten claim is over and the contract jumps over the general public range
+    // await kittensHDContract.daoRKITTENClaim(15);
+    // await kittensHDContract.daoRKITTENClaim(10);
+    // await kittensHDContract.daoRKITTENClaim(15);
+    // await kittensHDContract.daoRKITTENClaim(10);
+    // console.log("First one...");
+    // await kittensHDContract.daoRKITTENClaim(50);
+    // await kittensHDContract.daoRKITTENClaim(50);
+    // console.log("Slow...");
+    // await kittensHDContract.daoRKITTENClaim(50);
+    // await kittensHDContract.daoRKITTENClaim(50);
+    // console.log("Almost there...");
+    // await kittensHDContract.daoRKITTENClaim(30);
 
-    expect(receipt).to.not.equal(`VM Exception while processing transaction: reverted with reason string 'Invalid amount'`)
-    expect(await depositAddress.getBalance()).to.equal(ethers.utils.parseEther("4.2").add(depositAddressInitialBalance))
-    expect(await contract.balanceOf(await owner.getAddress())).to.equal(1)
-  });
+    console.log("Pausing minting...");
+    await kittensHDContract.pauseMinting();
 
+    // impersonate claimer
 
-  it("should not mint if user didn't send the right amount", async function () {
-    const Contract = await ethers.getContractFactory("FantomKittens");
+    for (let claimer of Object.keys(merkleRoot.claims)) {
+      await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: [claimer],
+      });
 
-    const contract = await Contract.deploy();
+      await network.provider.send("hardhat_setBalance", [
+        claimer,
+        "0xffffffffffffffff",
+      ]);
 
-    await contract.setDepositAddress(await depositAddress.getAddress())
+      const claimerSigner = await ethers.getSigner(claimer);
 
-    const receipt = await contract.claim({
-      value: ethers.utils.parseEther("2.0"),
-    }).catch(e => e.message)
+      const previousKittensBalance = await kittensHDContract.balanceOf(claimer);
 
-    expect(receipt).to.equal(`VM Exception while processing transaction: reverted with reason string 'Invalid amount'`)
-  });
+      console.log(`Claiming as ${claimer}...`);
+      const receipt = await contract
+        .connect(claimerSigner)
+        .claim(
+          merkleRoot.claims[claimer].index,
+          Number(merkleRoot.claims[claimer].amount),
+          merkleRoot.claims[claimer].proof
+        )
+        .then((receipt) => receipt.hash)
+        .catch((e) => e.message);
 
-  it("only contract owner should change the deposit address", async function () {
-    const Contract = await ethers.getContractFactory("FantomKittens");
+      expect(receipt).to.not.contain(
+        `VM Exception while processing transaction: reverted with reason string`
+      );
 
-    const contract = await Contract.deploy();
+      const balance = await kittensHDContract.balanceOf(claimer);
+      console.log(previousKittensBalance.toNumber());
 
-    const contractFuckerSigner = contract.connect(someFucker)
+      console.log("Claimed balance", balance.toNumber());
+      expect(balance).to.equal(
+        previousKittensBalance.toNumber() +
+          Number(merkleRoot.claims[claimer].amount)
+      );
+    }
 
-    const receipt = await contractFuckerSigner.setDepositAddress(await someFucker.getAddress()).catch(e => e.message)
+    // const claimer = "0x075c3AD6ae22F995dbf89671c5F166343b4D415d";
+    // await hre.network.provider.request({
+    //   method: "hardhat_impersonateAccount",
+    //   params: [claimer],
+    // });
 
-    expect(receipt).to.equal(`VM Exception while processing transaction: reverted with reason string 'Ownable: caller is not the owner'`)
+    // await network.provider.send("hardhat_setBalance", [
+    //   claimer,
+    //   "0xffffffffffffffff",
+    // ]);
+
+    // const claimerSigner = await ethers.getSigner(claimer);
+
+    // const previousKittensBalance = await kittensHDContract.balanceOf(claimer);
+
+    // console.log(`Claiming as ${claimer}...`);
+    // const receipt = await contract
+    //   .connect(claimerSigner)
+    //   .claim(
+    //     merkleRoot.claims[claimer].index,
+    //     Number(merkleRoot.claims[claimer].amount),
+    //     merkleRoot.claims[claimer].proof
+    //   )
+    //   .then((receipt) => receipt.hash)
+    //   .catch((e) => e.message);
+
+    // expect(receipt).to.not.contain(
+    //   `VM Exception while processing transaction: reverted with reason string`
+    // );
+
+    // const balance = await kittensHDContract.balanceOf(claimer);
+
+    // expect(balance).to.equal(
+    //   previousKittensBalance.add(Number(merkleRoot.claims[claimer].amount))
+    // );
+
+    // console.log("Should not allow to claim twice");
+
+    // const receiptTwo = await contract
+    //   .connect(claimerSigner)
+    //   .claim(
+    //     merkleRoot.claims[claimer].index,
+    //     Number(merkleRoot.claims[claimer].amount),
+    //     merkleRoot.claims[claimer].proof
+    //   )
+    //   .then((receipt) => receipt.hash)
+    //   .catch((e) => e.message);
+
+    // expect(receiptTwo).to.contain(
+    //   `VM Exception while processing transaction: reverted with reason string`
+    // );
   });
 });
