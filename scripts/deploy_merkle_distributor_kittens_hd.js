@@ -1,4 +1,5 @@
 const hre = require("hardhat");
+const merkleRoot = require("../airdrop/kittens-hd-rkitten-airdrop/merkle-root.json");
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
@@ -8,9 +9,10 @@ async function main() {
   const Contract = await hre.ethers.getContractFactory(
     "KittenHDRKittenMerkleDistributor"
   );
+  const kittensHDAddress = "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9";
   const contract = await Contract.deploy(
-    "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9",
-    "0xed5efa371ee21eb0bd68bfbd60b61e901f64efc17687ccb6c4e72537ab6fd84d"
+    kittensHDAddress,
+    merkleRoot.merkleRoot
   );
   await contract.deployed();
 
@@ -30,6 +32,7 @@ async function main() {
     try {
       await hre.run("verify:verify", {
         address: contract.address,
+        constructorArguments: [kittensHDAddress, merkleRoot.merkleRoot],
       });
     } catch (e) {
       console.log("Verification failed:", e);

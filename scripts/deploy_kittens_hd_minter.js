@@ -7,7 +7,8 @@ async function main() {
 
   const Contract = await hre.ethers.getContractFactory("KittensHDPublicMinter");
   const kittensHDAddress = "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9";
-  const contract = await Contract.deploy(kittensHDAddress);
+  const depositAddress = "0xc748e6de30222f4e9bc01812860ff005a82543e6";
+  const contract = await Contract.deploy(kittensHDAddress, depositAddress);
   await contract.deployed();
 
   console.log("Deployed to:", contract.address);
@@ -26,6 +27,7 @@ async function main() {
     console.log("Verifying ze contract");
     await hre.run("verify:verify", {
       address: contract.address,
+      constructorArguments: [kittensHDAddress, depositAddress],
     });
   }
 }
