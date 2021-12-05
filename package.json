@@ -20,8 +20,6 @@
     "@rebass/forms": "^4.0.6",
     "@rescript/react": "^0.10.3",
     "@ryyppy/rescript-promise": "^2.1.0",
-    "@spookyswap/core": "SpookySwap/spookyswap-core",
-    "add": "^2.0.6",
     "cors": "^2.8.5",
     "ethers": "^5.4.6",
     "next": "11.1.2",
@@ -32,8 +30,7 @@
     "rescript": "^9.1.4",
     "swr": "^1.0.1",
     "use-wallet": "^0.10.0",
-    "web3": "1.5.1",
-    "yarn": "^1.22.17"
+    "web3": "1.5.1"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
