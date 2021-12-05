@@ -1,5 +1,5 @@
 import React from "react";
-import Web3 from "web3";
+import * as ethers from "ethers";
 import { useWallet } from "use-wallet";
 import KittensHD from "../../artifacts/contracts/KittensHD.sol/KittensHD.json";
 import { parseEther } from "@ethersproject/units";
@@ -11,22 +11,27 @@ export const getCostPerKittenByQuantity = (quantity: number) => {
 };
 
 export const useWeb3 = () => {
-  const france: React.MutableRefObject<Web3 | undefined> = React.useRef();
+  const provider: React.MutableRefObject<
+    ethers.providers.Web3Provider | undefined
+  > = React.useRef();
   const contract: React.MutableRefObject<any | undefined> = React.useRef();
 
   React.useEffect(() => {
-    france.current = new Web3(window.ethereum);
-    contract.current = new france.current.eth.Contract(
+    provider.current = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.current.getSigner();
+
+    contract.current = new ethers.Contract(
+      process.env.NEXT_PUBLIC_KITTENS_HD_CONTRACT_ADDRESS as string,
       KittensHD.abi as any,
-      process.env.NEXT_PUBLIC_KITTENS_HD_CONTRACT_ADDRESS
+      signer
     );
   });
 
-  return [france, contract];
+  return [provider, contract];
 };
 
 export const useKittenHDMethods = () => {
-  const [_france, contract] = useWeb3();
+  const [, contract] = useWeb3();
   const [totalSupply, setTotalSupply] = React.useState<undefined | number>();
   const [rKittenClaimedCount, setRKittenClaimedCount] = React.useState<
     undefined | number
@@ -46,28 +51,27 @@ export const useKittenHDMethods = () => {
   const wallet = useWallet();
 
   const claimKittens = async (quantity: number | string) => {
-    return contract.current.methods.claim(quantity).send({
+    return contract.current.claim(quantity, {
       from: wallet?.account as string,
       value: getCostPerKittenByQuantity(Number(quantity)).mul(quantity),
     });
   };
 
   const ogClaim = async () => {
-    return contract.current.methods.ogClaim().send({
+    return contract.current.ogClaim({
       from: wallet?.account as string,
     });
   };
 
   const honoraryClaim = async () => {
-    return contract.current.methods.honoraryClaim().send({
+    return contract.current.honoraryClaim({
       from: wallet?.account as string,
     });
   };
 
   const getTotalSupply = () =>
-    contract.current?.methods
-      .totalSupply()
-      .call()
+    contract.current
+      ?.totalSupply()
       .then((supply: string) => setTotalSupply(Number(supply)));
 
   // get list of user owned tokens using tokenOfOwnerByIndex
@@ -75,12 +79,10 @@ export const useKittenHDMethods = () => {
     const tokens = [];
     let index = 0;
     const owner = wallet?.account as string;
-    const balance = await contract.current.methods.balanceOf(owner).call();
+    const balance = await contract.current.balanceOf(owner);
     for (let i = 0; i < balance; i++) {
-      const token = await contract.current.methods
-        .tokenOfOwnerByIndex(owner, index)
-        .call();
-      tokens.push(token);
+      const token = await contract.current.tokenOfOwnerByIndex(owner, index);
+      tokens.push(token.toString());
       index++;
     }
 
@@ -88,27 +90,23 @@ export const useKittenHDMethods = () => {
   };
 
   const getRKittenClaimCounter = () =>
-    contract.current?.methods
-      .getRKittenClaimCounter()
-      .call()
+    contract.current
+      ?.getRKittenClaimCounter()
       .then((supply: string) => setRKittenClaimedCount(Number(supply)));
 
   const getHonoraryClaimCounter = () =>
-    contract.current?.methods
-      .getHonoraryClaimCounter()
-      .call()
+    contract.current
+      ?.getHonoraryClaimCounter()
       .then((supply: string) => setHonoraryClaimedCount(Number(supply)));
 
   const getDaoClaimCounter = () =>
-    contract.current?.methods
-      .getDaoClaimCounter()
-      .call()
+    contract.current
+      ?.getDaoClaimCounter()
       .then((supply: string) => setDaoClaimedCount(Number(supply)));
 
   const getGeneralMintCounter = () =>
-    contract.current?.methods
-      .getGeneralMintCounter()
-      .call()
+    contract.current
+      ?.getGeneralMintCounter()
       .then((supply: string) => setGeneralClaimedCount(Number(supply)));
 
   return {

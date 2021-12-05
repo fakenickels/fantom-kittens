@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <UseWalletProvider
         connectors={{
           injected: {
-            // fantom mainnet and testnet
-            chainId: [250, 0xfa2],
+            // fantom mainnet, testnet and localhost
+            chainId: [250, 0xfa2, 1337],
           },
         }}
       >

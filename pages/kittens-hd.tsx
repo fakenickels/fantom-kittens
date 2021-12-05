@@ -11,6 +11,8 @@ import {
 } from "../src/utils/useKittensHd";
 import { utils } from "ethers";
 import { useWallet } from "use-wallet";
+import { useKittenHDMinterMethods } from "../src/utils/useKittensHdMinter";
+import { useRKittenClaim } from "../src/utils/useRKittenClaim";
 
 const metamaskChangeToFantom = () => {
   return window.ethereum.request({
@@ -120,6 +122,8 @@ function Input(props: any) {
 export default function KittensHD() {
   const [quantity, setQuantity] = React.useState(1);
   const kittensHD = useKittenHDMethods();
+  const kittensMinter = useKittenHDMinterMethods();
+  const rkittenClaim = useRKittenClaim();
   const wallet = useWallet();
 
   const leftKittens = 10_000 - (kittensHD.generalClaimedCount || 0);
@@ -243,7 +247,7 @@ export default function KittensHD() {
               return;
             }
             toast.info(`Minting...`);
-            kittensHD
+            kittensMinter
               .claimKittens(quantity)
               .then((txn) => {
                 toast.success(`Minted ${quantity} kittens. Check below.`);
@@ -285,12 +289,34 @@ export default function KittensHD() {
           <p>Claim for special kittens will be resumed soon</p>
         </div>
         <div className="w-8/12 flex items-center flex-col">
-          <Button disabled>
-            Claim free HD for every 420 rKITTEN you had before minting
+          <Button
+            onClick={() => {
+              rkittenClaim
+                .claimKittens()
+                .then((txn) => {
+                  toast.success(
+                    `Successfully claimed ${Number(
+                      rkittenClaim.getLeaf().amount
+                    )} kittens`
+                  );
+                })
+                .catch((e) => {
+                  toast.dismiss();
+                  console.log(e);
+                  toast.error(`${e.data?.message || e.message}`);
+                });
+            }}
+            disabled={!Boolean(rkittenClaim.getLeaf())}
+          >
+            Claim free HD for every 420 rKITTEN you had before minting or if you
+            staked in MasterKitten
           </Button>
           <p>
-            rKITTEN claiming will work later this week, currently not working,
-            but your claims are reserved!
+            {rkittenClaim.getLeaf()
+              ? `You're eligible for this claim. ${Number(
+                  rkittenClaim.getLeaf().amount
+                )} kittens.`
+              : `You're not eligible for this claim`}
           </p>
         </div>
       </div>
