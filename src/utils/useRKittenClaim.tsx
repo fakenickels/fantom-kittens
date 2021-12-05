@@ -1,8 +1,8 @@
 import React from "react";
 import { useWallet } from "use-wallet";
 import * as ethers from "ethers";
-import KittensHDMinter from "../../artifacts/contracts/KittensHDPublicMinter.sol/KittensHDPublicMinter.json";
 import rKittenMerkleRootSnaptshot from "../../airdrop/kittens-hd-rkitten-airdrop/merkle-root.json";
+import MerkleDistributor from "../../artifacts/contracts/KittenHDRKittenMerkleDistributor.sol/KittenHDRKittenMerkleDistributor.json";
 
 export const useWeb3 = () => {
   const provider: React.MutableRefObject<
@@ -15,7 +15,7 @@ export const useWeb3 = () => {
     const signer = provider.current.getSigner();
     contract.current = new ethers.Contract(
       process.env.NEXT_PUBLIC_KITTENS_MERKLE_DISTRIBUTOR_ADDRESS as string,
-      KittensHDMinter.abi as any,
+      MerkleDistributor.abi as any,
       signer
     );
   });
@@ -29,14 +29,16 @@ export const useRKittenClaim = () => {
   const wallet = useWallet();
 
   const claimKittens = async () => {
-    const proof: {
+    const leaf: {
       index: number;
       amount: string;
       proof: string[];
     } = (rKittenMerkleRootSnaptshot as any).claims[wallet?.account as string];
-    return contract.current.claim(Number(proof.amount), {
-      from: wallet?.account as string,
-    });
+    return contract.current
+      .claim(leaf.index, Number(leaf.amount), leaf.proof)
+      .then((res: any) => {
+        return res.wait();
+      });
   };
 
   // check if wallet.address is in the rKittenMerkleRootSnaptshot

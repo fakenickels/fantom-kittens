@@ -29,10 +29,14 @@ export const useKittenHDMinterMethods = () => {
   const wallet = useWallet();
 
   const claimKittens = async (quantity: number | string) => {
-    return contract.current.claim(quantity).send({
-      from: wallet?.account as string,
-      value: getCostPerKittenByQuantity(Number(quantity)).mul(quantity),
-    });
+    return contract.current
+      .claim(quantity, {
+        from: wallet?.account as string,
+        value: getCostPerKittenByQuantity(Number(quantity)).mul(quantity),
+      })
+      .then((res: any) => {
+        return res.wait();
+      });
   };
 
   return {

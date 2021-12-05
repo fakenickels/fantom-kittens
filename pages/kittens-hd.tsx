@@ -287,11 +287,8 @@ export default function KittensHD() {
                 })
                 .catch((e) => {
                   toast.dismiss();
-                  toast.error(
-                    `Error claiming ${Number(
-                      rkittenClaim.getLeaf().amount
-                    )} kittens: ${e.message}`
-                  );
+                  console.log(e);
+                  toast.error(`${e.data?.message || e.message}`);
                 });
             }}
             disabled={!Boolean(rkittenClaim.getLeaf())}
