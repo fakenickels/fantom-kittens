@@ -8,7 +8,12 @@ async function main() {
   const Contract = await hre.ethers.getContractFactory(
     "SpecialKittensDistributor"
   );
-  const contract = await Contract.deploy();
+  const contract = await Contract.deploy(
+    // KittensHD
+    "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9",
+    // Kittens Specials
+    "0xE65469083B4f50d1EcD089584c671Bb1d23F9AC7"
+  );
   await contract.deployed();
 
   console.log("Deployed to:", contract.address);
