@@ -20,6 +20,7 @@
     "@rebass/forms": "^4.0.6",
     "@rescript/react": "^0.10.3",
     "@ryyppy/rescript-promise": "^2.1.0",
+    "@spookyswap/core": "SpookySwap/spookyswap-core",
     "cors": "^2.8.5",
     "ethers": "^5.4.6",
     "next": "11.1.2",
