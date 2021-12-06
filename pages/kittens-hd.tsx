@@ -13,6 +13,7 @@ import { utils } from "ethers";
 import { useWallet } from "use-wallet";
 import { useKittenHDMinterMethods } from "../src/utils/useKittensHdMinter";
 import { useRKittenClaim } from "../src/utils/useRKittenClaim";
+import { useSpecialClaim } from "../src/utils/useSpecialKittensDistributor";
 
 const metamaskChangeToFantom = () => {
   return window.ethereum.request({
@@ -124,6 +125,7 @@ export default function KittensHD() {
   const kittensHD = useKittenHDMethods();
   const kittensMinter = useKittenHDMinterMethods();
   const rkittenClaim = useRKittenClaim();
+  const specialClaim = useSpecialClaim();
   const wallet = useWallet();
 
   const leftKittens = 10_000 - (kittensHD.generalClaimedCount || 0);
@@ -278,15 +280,31 @@ export default function KittensHD() {
               })
               .catch((e) => {
                 toast.dismiss();
-                toast.error(`Error minting ${quantity} kittens: ${e.message}`);
+                toast.error(`${e.data?.message || e.message}`);
               });
           }}
         >
           Claim free HD for OG Kittens
         </Button>
         <div className="w-8/12 flex items-center flex-col">
-          <Button disabled>Claim for special kittens</Button>
-          <p>Claim for special kittens will be resumed soon</p>
+          <Button
+            onClick={() => {
+              specialClaim
+                .claimKittens()
+                .then((txn) => {
+                  toast.success(
+                    `Successfully claimed 1 Kitten HD. Check below.`
+                  );
+                })
+                .catch((e) => {
+                  toast.dismiss();
+                  console.log(e);
+                  toast.error(`${e.data?.message || e.message}`);
+                });
+            }}
+          >
+            Claim for special kittens
+          </Button>
         </div>
         <div className="w-8/12 flex items-center flex-col">
           <Button

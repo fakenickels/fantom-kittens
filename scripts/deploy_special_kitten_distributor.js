@@ -8,9 +8,10 @@ async function main() {
   const Contract = await hre.ethers.getContractFactory(
     "SpecialKittensDistributor"
   );
+  const kittensHDAddress = "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9";
   const args = [
     // KittensHD
-    "0xad956DF38D04A9A555E079Cf5f3fA59CB0a25DC9",
+    kittensHDAddress,
     // Kittens Specials
     "0xE65469083B4f50d1EcD089584c671Bb1d23F9AC7",
   ];
