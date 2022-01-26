@@ -28,7 +28,7 @@ contract KittensHDPublicMinter is Ownable, IERC721Receiver {
 
     require(msg.value == amount, "Invalid amount");
 
-    depositAddress.transfer(amount);
+    (bool success, ) = depositAddress.call{value: amount}("");
 
     kittensHD.unpauseMinting();
     kittensHD.daoAnyClaim(quantity);
@@ -39,7 +39,7 @@ contract KittensHDPublicMinter is Ownable, IERC721Receiver {
   }
 
   function withdraw() public onlyOwner {
-    depositAddress.transfer(address(this).balance);
+    (bool success, ) = depositAddress.call{value: (address(this).balance)}("");
   }
 
   // method to pause the minting of new tokens

@@ -256,6 +256,7 @@ export default function KittensHD() {
               })
               .catch((e) => {
                 toast.dismiss();
+                console.log(e);
                 toast.error(`Error minting ${quantity} kittens: ${e.message}`);
               });
           }}
