@@ -38,6 +38,7 @@
     "@nomiclabs/hardhat-etherscan": "^3.0.0",
     "@openzeppelin/contracts": "^4.4.2",
     "@types/cors": "^2.8.12",
+    "@types/mocha": "^9.1.0",
     "@types/react": "17.0.38",
     "@types/rebass": "^4.0.10",
     "@types/rebass__forms": "^4.0.6",
