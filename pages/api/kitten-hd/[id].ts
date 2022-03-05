@@ -26,18 +26,10 @@ export default async function handler(
   // Run cors
   await cors(req, res);
   const id = (req.query.id as string).replace(/\D+/g, "");
+  
+  const metadata = await fetch(`${process.env.METADATA_URL}/${id}.json`).then(
+    (res) => res.json()
+  );
 
-  try {
-    console.log(await contract.ownerOf(id));
-    const metadata = await fetch(`${process.env.METADATA_URL}/${id}.json`).then(
-      (res) => res.json()
-    );
-
-    res.status(200).json(metadata);
-  } catch (e) {
-    console.log(e);
-    res.status(404).json({
-      message: "Not found",
-    });
-  }
+  res.status(200).json(metadata);
 }
