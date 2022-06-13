@@ -33,6 +33,11 @@ module.exports = {
         destination: "/generator/index.html",
         permanent: true,
       },
+      {
+        source: "/api/kitten-hd/:id",
+        destination: "ipfs://QmRYocmyUFeSQnExJB8gPLgAqT5F5rugRefi6J7Z7fv2JW/:id.json",
+        permanent: true,
+      },      
     ]
   },
   reactStrictMode: true,
