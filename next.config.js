@@ -24,16 +24,16 @@ module.exports = {
   redirects: async () => {
     return [
       {
-        source: "/minigame",
-        destination: "/minigame/index.html",
+        source: "/api/kittens-hd/:id",
+        destination: "/metadata/kittens-hd/:id.json",
         permanent: true,
       },
       {
-        source: "/generator",
-        destination: "/generator/index.html",
+        source: "/api/kitten/:id",
+        destination: "/metadata/kitten/:id.json",
         permanent: true,
       },
-    ]
+    ];
   },
   reactStrictMode: true,
 };
