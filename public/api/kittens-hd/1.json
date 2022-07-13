@@ -1,0 +1,18 @@
+{
+  "id": "1",
+  "name": "Fantom Kitten HD #1",
+  "description": "A sweet HD kitten",
+  "image": "ipfs://QmTPetvx7oromHwB5Q6srhRHfyRq5hVoPdQ7gT8iVw7xor",
+  "attributes": [
+    { "trait_type": "Eyes", "value": "33" },
+    { "trait_type": "Mouth", "value": "4" },
+    { "trait_type": "Glasses", "value": "none" },
+    { "trait_type": "Color", "value": "rgb(239, 150, 185)" },
+    { "trait_type": "Color2", "value": "none" },
+    { "trait_type": "BackgroundColorAngle", "value": "none" },
+    { "trait_type": "BackgroundColorAnimationFrame", "value": "none" },
+    { "trait_type": "Personality", "value": "Private Investigator" },
+    { "trait_type": "Sociability", "value": "Low" },
+    { "trait_type": "Courage", "value": "Low" }
+  ]
+}
