@@ -29,6 +29,11 @@ module.exports = {
         permanent: true,
       },
       {
+        source: "/api/kitten-hd/:id",
+        destination: "/metadata/kittens-hd/:id.json",
+        permanent: true,
+      },
+      {
         source: "/api/kitten/:id",
         destination: "/metadata/kitten/:id.json",
         permanent: true,
