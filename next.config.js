@@ -25,12 +25,12 @@ module.exports = {
     return [
       {
         source: "/api/kittens-hd/:id",
-        destination: "/metadata/kittens-hd/:id.json",
+        destination: "/metadata/kittens-hd/:id",
         permanent: true,
       },
       {
         source: "/api/kitten-hd/:id",
-        destination: "/metadata/kittens-hd/:id.json",
+        destination: "/metadata/kittens-hd/:id",
         permanent: true,
       },
       {
